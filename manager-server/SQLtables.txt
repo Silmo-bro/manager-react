@@ -1,0 +1,37 @@
+CREATE TABLE people (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    name TEXT NOT NULL,
+    role TEXT NOT NULL,
+    start_date TEXT NOT NULL
+);
+
+CREATE TABLE operations (
+    id INTEGER PRIMARY KEY NOT NULL,
+    operation TEXT NOT NULL,
+    responsible INTEGER,
+    FOREIGN KEY(responsible) REFERENCES people(id)
+);
+
+CREATE TABLE capabilities (
+    person_id INTEGER NOT NULL,
+    operation_id INTEGER NOT NULL,
+    experience TEXT NOT NULL,
+    FOREIGN KEY(person_id) REFERENCES people(id)
+    FOREIGN KEY(operation_id) REFERENCES operations(id)
+);
+
+CREATE TABLE tasks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    name TEXT NOT NULL,
+    details TEXT NOT NULL,
+    date_created TEXT NOT NULL,
+    date_planned TEXT,
+    date_held TEXT,
+    date_done TEXT,
+    status TEXT NOT NULL,
+    is_hold INTEGER NOT NULL,
+    off_hold TEXT,
+    is_bonus INTEGER NOT NULL,
+    owner_id INTEGER NOT NULL,
+    FOREIGN KEY(owner_id) REFERENCES people(id)
+);

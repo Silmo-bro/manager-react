@@ -1,0 +1,110 @@
+.people-profile-parent{
+    display: flex;
+}
+
+.profile-container{
+    max-width: 600px;
+    margin-left: 50px;
+}
+
+.people-container{
+    margin-left: 20px;
+}
+
+.people-input{
+    max-width: 150px;
+    min-width: 150px;
+    margin-right: 15px;
+    margin-bottom: 5px;
+    min-height: 20px;
+    border-radius: 25px;
+    padding: 4px;
+    padding-left: 10px;
+    border: 1px solid;
+    font-family: consolas, sans-serif;
+    font-size: 1em;
+}
+
+.input-container{
+    display: flex;
+}
+
+table{
+    border-color: rgba(214, 214, 214, 0.788);
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    margin-bottom: 20px;
+    text-align: left;
+    width: 50%;
+    min-width: 530px;
+    max-width: 690px;
+    font-family: consolas, sans-serif;
+}
+
+th{
+    background-color: rgba(214, 214, 214, 0.788);
+}
+
+tr:hover{
+    cursor: pointer;
+    background-color: rgba(214, 214, 214, 0.788);
+}
+
+th, td{
+    border: 1px solid;
+    border-color: rgba(214, 214, 214, 0.788);
+    padding: 8px;
+}
+
+thead tr:first-child th:first-child {
+    border-top-left-radius: 20px;
+}
+thead tr:first-child th:last-child {
+    border-top-right-radius: 20px;
+}
+tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 20px;
+}
+tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 20px;
+}
+
+button{
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid;
+    border-radius: 25px;
+    font-family: consolas, sans-serif;
+    font-size: 1em;
+    min-width: 150px;
+}
+
+.signature{
+    font-family: consolas, sans-serif;
+    position: absolute;
+    bottom: 0;
+    right: 20px;
+}
+
+body{
+    background-color: rgb(255, 255, 255);
+    border-color: rgba(214, 214, 214, 0.788);
+    border-style: solid;
+    border-radius: 25px;
+    margin: 10px;
+    padding: 20px;
+}
+
+h1{
+    font-family: consolas, sans-serif;
+    font-size: 3em;
+}
+
+h2{
+    font-family: consolas, sans-serif;
+    font-size: 1.5em;
+    margin-left: 15px;
+    margin-bottom: 5px;
+}
