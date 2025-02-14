@@ -8,8 +8,10 @@ CREATE TABLE people (
 CREATE TABLE operations (
     id INTEGER PRIMARY KEY NOT NULL,
     operation TEXT NOT NULL,
-    responsible INTEGER,
-    FOREIGN KEY(responsible) REFERENCES people(id)
+    responsible1 INTEGER,
+    responsible2 INTERGER,
+    FOREIGN KEY(responsible1) REFERENCES people(id),
+    FOREIGN KEY(responsible2) REFERENCES people(id)
 );
 
 CREATE TABLE capabilities (

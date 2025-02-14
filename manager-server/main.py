@@ -17,7 +17,7 @@ def people():
     # Check if get request is received
     if request.method == 'GET':
         # Fetch users dynamically from database
-        people_db = db.execute("SELECT name, role, start_date FROM people")
+        people_db = db.execute("SELECT * FROM people")
 
         # Returns list of dictionaries as JSON
         return jsonify({"people": people_db})
@@ -35,14 +35,20 @@ def people():
 def tasks():
     
     # Fetch tasks dynamically from database
-    tasks_db = db.execute("SELECT id, name, details, date_created, date_planned, date_held, date_done, status, is_hold, off_hold, is_bonus, owner_id FROM tasks")
+    tasks_db = db.execute("SELECT * FROM tasks")
 
     # Returns list of dictionaries as JSON
     return jsonify(
-        {
-            "tasks": tasks_db
-        }
+        {"tasks": tasks_db})
+
+@app.route("/api/capables", methods=['GET'])
+def capables():
+
+    capables_db = db.execute(
+        "SELECT people.name, operations.operation, capabilities.experience FROM people LEFT JOIN capabilities ON people.id=capabilities.person_id LEFT JOIN operations ON operations.id=capabilities.operation_id"
     )
+
+    return jsonify({"capabilities": capables_db})
 
 if __name__ == "__main__":
     app.run(debug=True, port=8080)
