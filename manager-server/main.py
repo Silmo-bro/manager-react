@@ -11,6 +11,7 @@ cors = CORS(app, origins='*')
 # Connect to SQL database
 db = SQL("sqlite:///manager.db")
 
+
 @app.route("/api/people", methods=['GET', 'POST'])
 def people():
 
@@ -31,6 +32,7 @@ def people():
         # Return data of new person to front-end
         return jsonify({"newPerson": data})
 
+
 @app.route("/api/tasks", methods=['GET'])
 def tasks():
     
@@ -41,6 +43,7 @@ def tasks():
     return jsonify(
         {"tasks": tasks_db})
 
+
 @app.route("/api/capables", methods=['GET'])
 def capables():
 
@@ -49,6 +52,20 @@ def capables():
     )
 
     return jsonify({"capabilities": capables_db})
+
+
+@app.route("/api/operations", methods=['GET', 'POST'])
+def operations():
+
+    if request.method == 'GET':
+        operations_db = db.execute("SELECT * FROM operations")
+        return jsonify({"operations": operations_db})
+    
+    elif request.method == 'POST':
+        data = request.json
+        db.execute("INSERT INTO operations (operation) VALUES (?)", data["operation"])
+        return jsonify({"newOperation": data})
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=8080)
