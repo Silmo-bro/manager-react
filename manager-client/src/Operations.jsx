@@ -35,9 +35,13 @@ function Operations({ operations, setOperations, people }) {
                     {operations.map((operations, index) => (
                         <tr key={index}>
                             <td>{operations.operation}</td>
-                            <td><select>{people.map((people, index) => (
-                                <option key={index}>{people.name}</option>
-                            ))}</select></td>
+                            <td>Curent: {operations.responsible1}
+                                <select>
+                                    <option selected disabled>Select to reassign</option>
+                                {people.map((people, index) => (
+                                    <option key={index}>{people.name}</option>
+                                    ))}</select>
+                            </td>
                             <td><select>{people.map((people, index) => (
                                 <option key={index}>{people.name}</option>
                             ))}</select></td>
