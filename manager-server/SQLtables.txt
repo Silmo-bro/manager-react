@@ -1,25 +1,19 @@
 CREATE TABLE people (
-    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     name TEXT NOT NULL,
     role TEXT NOT NULL,
     start_date TEXT NOT NULL
 );
 
 CREATE TABLE operations (
-    id INTEGER PRIMARY KEY NOT NULL,
     operation TEXT NOT NULL,
-    responsible1 INTEGER,
-    responsible2 INTERGER,
-    FOREIGN KEY(responsible1) REFERENCES people(id),
-    FOREIGN KEY(responsible2) REFERENCES people(id)
+    responsible1 TEXT,
+    responsible2 TEXT
 );
 
 CREATE TABLE capabilities (
-    person_id INTEGER NOT NULL,
-    operation_id INTEGER NOT NULL,
-    experience TEXT NOT NULL,
-    FOREIGN KEY(person_id) REFERENCES people(id)
-    FOREIGN KEY(operation_id) REFERENCES operations(id)
+    operation TEXT NOT NULL,
+    person TEXT NOT NULL,
+    experience TEXT NOT NULL
 );
 
 CREATE TABLE tasks (
@@ -34,6 +28,5 @@ CREATE TABLE tasks (
     is_hold INTEGER NOT NULL,
     off_hold TEXT,
     is_bonus INTEGER NOT NULL,
-    owner_id INTEGER NOT NULL,
-    FOREIGN KEY(owner_id) REFERENCES people(id)
+    owner TEXT NOT NULL
 );

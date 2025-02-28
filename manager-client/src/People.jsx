@@ -38,7 +38,7 @@ function People({ people, setPeople, setPersonClicked }) {
   }
 
   return (
-    <div className="people-container">
+    <div className="table-container">
       <h2>People</h2>
       <table>
         <thead>
@@ -61,9 +61,9 @@ function People({ people, setPeople, setPersonClicked }) {
         </tbody>
       </table>
       <div className="input-container">
-        <input className="people-input" id="name" placeholder="Name"></input>
-        <input className="people-input" id="role" placeholder="Role"></input>
-        <input className="people-input" id="start_date" placeholder="Start Date"></input>
+        <input id="name" placeholder="Name"></input>
+        <input id="role" placeholder="Role"></input>
+        <input id="start_date" placeholder="Start Date"></input>
         <button onClick={handleAddNewPerson}>Add new person</button>
       </div>
     </div>
