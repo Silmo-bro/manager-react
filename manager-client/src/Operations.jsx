@@ -3,9 +3,6 @@ import { useState } from "react";
 
 function Operations({ operations, setOperations, people }) {
 
-    // State to track selected assignments (use of this state to reset drop-downs is provided by chatGPT)
-    const [selectedAssignments, setSelectedAssignments] = useState({});
-
     async function handleAddNewOperation() {
 
         // Get user input value
@@ -37,7 +34,6 @@ function Operations({ operations, setOperations, people }) {
 
         // Update operation state with response received from back-end
         setOperations(response.data.operations)
-
     }
 
     return (
@@ -47,24 +43,24 @@ function Operations({ operations, setOperations, people }) {
                 <thead>
                     <tr>
                         <th>Operation</th>
-                        <th>1° Responsible</th>
-                        <th>2° Responsible</th>
+                        <th>1° Responsible <br/> (select to assign)</th>
+                        <th>2° Responsible <br/> (select to assign)</th>
                     </tr>
                 </thead>
                 <tbody>
                     {operations.map((operations, index) => (
                         <tr key={index}>
                             <td>{operations.operation}</td>
-                            <td>Assigned: {operations.responsible1} <br/>
-                                <select value={selectedAssignments[`${operations.operation}-responsible1`] || ""} onChange={(event) => handleAssignment(event, operations.operation, "responsible1")}>
-                                    <option value="" disabled>Select to reassign</option>
+                            <td className="operations-row">Assigned: 
+                                <select className={operations.responsible1 === "" ? "vacant-selected" : ""} value={operations.responsible1 || ""} onChange={(event) => handleAssignment(event, operations.operation, "responsible1")}>
+                                    <option value="">Vacant</option>
                                 {people.map((people, index) => (
                                     <option key={index}>{people.name}</option>
                                     ))}</select>
                             </td>
-                            <td>Assigned: {operations.responsible2} <br/>
-                                <select value={selectedAssignments[`${operations.operation}-responsible2`] || ""} onChange={(event) => handleAssignment(event, operations.operation, "responsible2")}>
-                                    <option value="" disabled>Select to reassign</option>
+                            <td className="operations-row">Assigned: 
+                                <select className={operations.responsible2 === "" ? "vacant-selected" : ""} value={operations.responsible2 || ""} onChange={(event) => handleAssignment(event, operations.operation, "responsible2")}>
+                                    <option value="" >Vacant</option>
                                 {people.map((people, index) => (
                                     <option key={index}>{people.name}</option>
                                     ))}</select>

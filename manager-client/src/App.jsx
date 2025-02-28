@@ -40,8 +40,8 @@ function App() {
     <>
       <Header />
       <div className="people-profile-parent">
-        <People people={people} setPeople={setPeople} setPersonClicked={setPersonClicked} />
-        <Profile personClicked={personClicked} />
+        <People people={people} setPeople={setPeople} setPersonClicked={setPersonClicked}/>
+        <Profile personClicked={personClicked} setPersonClicked={setPersonClicked}/>
       </div>
       <div>
         <Operations operations={operations} setOperations={setOperations} people={people}/>
