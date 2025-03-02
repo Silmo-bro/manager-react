@@ -52,15 +52,15 @@ function Operations({ operations, setOperations, people }) {
                         <tr key={index}>
                             <td>{operations.operation}</td>
                             <td className="operations-row">Assigned: 
-                                <select className={operations.responsible1 === "" ? "vacant-selected" : ""} value={operations.responsible1 || ""} onChange={(event) => handleAssignment(event, operations.operation, "responsible1")}>
+                                <select className={(operations.responsible1 ?? "") === "" ? "vacant-selected" : ""} value={operations.responsible1 || ""} onChange={(event) => handleAssignment(event, operations.operation, "responsible1")}>
                                     <option value="">Vacant</option>
                                 {people.map((people, index) => (
                                     <option key={index}>{people.name}</option>
                                     ))}</select>
                             </td>
                             <td className="operations-row">Assigned: 
-                                <select className={operations.responsible2 === "" ? "vacant-selected" : ""} value={operations.responsible2 || ""} onChange={(event) => handleAssignment(event, operations.operation, "responsible2")}>
-                                    <option value="" >Vacant</option>
+                                <select className={(operations.responsible2 ?? "") === "" ? "vacant-selected" : ""} value={operations.responsible2 || ""} onChange={(event) => handleAssignment(event, operations.operation, "responsible2")}>
+                                    <option value="">Vacant</option>
                                 {people.map((people, index) => (
                                     <option key={index}>{people.name}</option>
                                     ))}</select>

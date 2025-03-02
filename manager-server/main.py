@@ -65,5 +65,15 @@ def assignment():
     return jsonify({"operations": operations_db})
 
 
+@app.route("/api/profile-operations-count", methods=['POST'])
+def profile():
+
+    data = request.json
+    print(data)
+    operations_count = db.execute("SELECT COUNT(*) as count FROM operations WHERE responsible1 = ?", data["personClicked"])
+    print(operations_count)
+    return jsonify({"operationsCount": operations_count[0]["count"]})
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=8080)

@@ -39,8 +39,8 @@ function People({ people, setPeople, setPersonClicked }) {
 
   return (
     <div className="table-container">
-      <h2>People</h2>
-      <table>
+      <h2>People (select person to view profile)</h2>
+      <table className="people-table">
         <thead>
           <tr>
             <th>Name</th>
