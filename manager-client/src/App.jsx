@@ -13,6 +13,7 @@ function App() {
   const [tasks, setTasks] = useState([])
   const [personClicked, setPersonClicked] = useState("")
   const [operations, setOperations] = useState([])
+  const [capabilities, setCapabilities] = useState([])
 
   useEffect(() => {
     const fetchPeople = async () => {
@@ -41,7 +42,7 @@ function App() {
       <Header />
       <div className="people-profile-parent">
         <People people={people} setPeople={setPeople} setPersonClicked={setPersonClicked}/>
-        <Profile personClicked={personClicked} setPersonClicked={setPersonClicked} operations={operations}/>
+        <Profile personClicked={personClicked} setPersonClicked={setPersonClicked} operations={operations} capabilities={capabilities} setCapabilities={setCapabilities}/>
       </div>
       <div>
         <Operations operations={operations} setOperations={setOperations} people={people}/>

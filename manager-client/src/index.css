@@ -3,6 +3,7 @@
     padding-bottom: 20px;
     border-bottom: 1px solid;
     border-bottom-color: rgba(214, 214, 214, 0.788);
+    box-sizing: border-box;
 }
 
 .profile-container {
@@ -148,6 +149,8 @@ body {
     border-radius: 25px;
     margin: 10px;
     padding: 20px;
+    box-sizing: border-box;
+    min-width: 1400px;
 }
 
 h1 {

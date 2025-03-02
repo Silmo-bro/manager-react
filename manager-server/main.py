@@ -65,14 +65,18 @@ def assignment():
     return jsonify({"operations": operations_db})
 
 
-@app.route("/api/profile-operations-count", methods=['POST'])
+@app.route("/api/profile", methods=['GET'])
 def profile():
 
-    data = request.json
-    print(data)
-    operations_count = db.execute("SELECT COUNT(*) as count FROM operations WHERE responsible1 = ?", data["personClicked"])
-    print(operations_count)
-    return jsonify({"operationsCount": operations_count[0]["count"]})
+    name = request.args.get('personClicked')
+    operations_count = db.execute("SELECT COUNT(*) as count FROM operations WHERE responsible1 = ?", name)
+
+    capabilities = db.execute("SELECT * FROM capabilities WHERE person = ?", name)
+
+    return jsonify({
+        "operationsCount": operations_count[0]["count"],
+        "capabilities": capabilities
+        })
 
 
 if __name__ == "__main__":

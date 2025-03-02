@@ -1,23 +1,32 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function Profile({ personClicked, setPersonClicked, operations }) {
+function Profile({ personClicked, setPersonClicked, operations, capabilities, setCapabilities }) {
 
     const [operationsCount, setOperationsCount] = useState("")
 
     useEffect(() => {
         if (personClicked) {
             async function fetchOperationsCount() {
-                const response = await axios.post("http://127.0.0.1:8080/api/profile-operations-count", { personClicked: personClicked });
+                const response = await axios.get("http://127.0.0.1:8080/api/profile", { params: { personClicked } });
                 setOperationsCount(response.data.operationsCount);
             };
+
+            async function fetchCapabilities() {
+                const response = await axios.get("http://127.0.0.1:8080/api/profile", { params: { personClicked } });
+                setCapabilities(response.data.capabilities);
+            };
+
             fetchOperationsCount();
+            fetchCapabilities();
         }
-    }, [personClicked, operations])
+    }, [personClicked, operations]);
+
 
     function handleCloseProfile() {
         setPersonClicked("");
     }
+
 
     if (personClicked) {
 
@@ -41,15 +50,17 @@ function Profile({ personClicked, setPersonClicked, operations }) {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>First operation</td>
-                                <td>
-                                    Experience level
-                                </td>
-                                <td>
-                                    DATE
-                                </td>
-                            </tr>
+                            {operations.map((operations, index) => (
+                                <tr key={index}>
+                                    <td>{operations.operation}</td>
+                                    <td>
+                                        Experience level
+                                    </td>
+                                    <td>
+                                        DATE
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
