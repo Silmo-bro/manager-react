@@ -65,19 +65,29 @@ def assignment():
     return jsonify({"operations": operations_db})
 
 
-@app.route("/api/profile", methods=['GET'])
+@app.route("/api/profile", methods=['GET', 'POST'])
 def profile():
 
-    name = request.args.get('personClicked')
-    operations_count = db.execute("SELECT COUNT(*) as count FROM operations WHERE responsible1 = ?", name)
+    if request.method =='GET':
+        name = request.args.get('personClicked')
+        operations_count = db.execute("SELECT COUNT(*) as count FROM operations WHERE responsible1 = ?", name)
 
-    capabilities = db.execute("SELECT * FROM capabilities WHERE person = ?", name)
+        capabilities = db.execute("SELECT * FROM capabilities")
 
-    return jsonify({
-        "operationsCount": operations_count[0]["count"],
-        "capabilities": capabilities
-        })
+        return jsonify({
+            "operationsCount": operations_count[0]["count"],
+            "capabilities": capabilities
+            })
+    
+    if request.method == 'POST':
+        data = request.json
 
+        if(db.execute("SELECT * FROM capabilities WHERE operation = ? AND person = ?", data["operation"], data["person"])):
+            db.execute("UPDATE capabilities SET experience = ? WHERE operation = ? AND person = ?", data["experience"], data["operation"], data["person"])
+        else:
+            db.execute("INSERT INTO capabilities (operation, person, experience) VALUES (?, ?, ?)", data["operation"], data["person"], data["experience"])
+
+        return jsonify({"success": True, "message": "Experience updated successfully"})
 
 if __name__ == "__main__":
     app.run(debug=True, port=8080)

@@ -3,7 +3,7 @@ import axios from "axios";
 
 function Profile({ personClicked, setPersonClicked, operations, capabilities, setCapabilities }) {
     const [operationsCount, setOperationsCount] = useState("");
-
+    
     // Define experience level options
     const experienceLevels = ["Untrained", "Basic", "Intermediate", "Expert", "Master"];
 
@@ -28,32 +28,33 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
         setPersonClicked("");
     }
 
-    // Function to find the matching experience level for an operation (provided by AI)
+    // Function to find the matching experience level for an operation
     const getExperienceLevel = (operationName) => {
         if (!capabilities) return "Untrained";
-
+        
         const capability = capabilities.find(
             (cap) => cap.operation === operationName && cap.person === personClicked
         );
-
+        
         return capability ? capability.experience : "Untrained";
     };
 
-    // Handle experience level change (provided by AI)
+    // Handle experience level change
     const handleExperienceChange = async (operationName, newExperience) => {
         try {
-            await axios.post("http://127.0.0.1:8080/api/profile", {
-                person: personClicked,
-                operation: operationName,
-                experience: newExperience
-            });
-
+            // You would implement API call to update the experience level here
+            // Example: await axios.post("http://127.0.0.1:8080/api/updateExperience", {
+            //    person: personClicked,
+            //    operation: operationName,
+            //    experience: newExperience
+            // });
+            
             // Update local state to reflect the change
             const updatedCapabilities = capabilities ? [...capabilities] : [];
             const existingIndex = updatedCapabilities.findIndex(
                 cap => cap.operation === operationName && cap.person === personClicked
             );
-
+            
             if (existingIndex !== -1) {
                 // Update existing capability
                 updatedCapabilities[existingIndex] = {
@@ -68,9 +69,9 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
                     experience: newExperience
                 });
             }
-
+            
             setCapabilities(updatedCapabilities);
-
+            
         } catch (error) {
             console.error("Failed to update experience level:", error);
         }
@@ -102,7 +103,7 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
                                     <tr key={index}>
                                         <td>{operation.operation}</td>
                                         <td>
-                                            <select
+                                            <select 
                                                 value={currentExperience}
                                                 onChange={(e) => handleExperienceChange(operation.operation, e.target.value)}
                                             >
