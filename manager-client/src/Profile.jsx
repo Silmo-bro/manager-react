@@ -3,24 +3,20 @@ import axios from "axios";
 
 function Profile({ personClicked, setPersonClicked, operations, capabilities, setCapabilities }) {
     const [operationsCount, setOperationsCount] = useState("");
+    const [sortMode, setSortMode] = useState("none"); // Tracks sorting state
 
     // Define experience level options
     const experienceLevels = ["Untrained", "Basic", "Intermediate", "Expert", "Master"];
 
     useEffect(() => {
         if (personClicked) {
-            async function fetchOperationsCount() {
+            async function fetchOperationsCountAndCapabilities() {
                 const response = await axios.get("http://127.0.0.1:8080/api/profile", { params: { personClicked } });
                 setOperationsCount(response.data.operationsCount);
-            };
-
-            async function fetchCapabilities() {
-                const response = await axios.get("http://127.0.0.1:8080/api/profile", { params: { personClicked } });
                 setCapabilities(response.data.capabilities);
             };
 
-            fetchOperationsCount();
-            fetchCapabilities();
+            fetchOperationsCountAndCapabilities();
         }
     }, [personClicked, operations]);
 
@@ -28,7 +24,7 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
         setPersonClicked("");
     }
 
-    // Function to find the matching experience level for an operation (provided by AI)
+    // Function to find the matching experience level for an operation
     const getExperienceLevel = (operationName) => {
         if (!capabilities) return "Untrained";
 
@@ -39,7 +35,7 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
         return capability ? capability.experience : "Untrained";
     };
 
-    // Handle experience level change (provided by AI)
+    // Handle experience level change
     const handleExperienceChange = async (operationName, newExperience) => {
         try {
             await axios.post("http://127.0.0.1:8080/api/profile", {
@@ -55,13 +51,11 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
             );
 
             if (existingIndex !== -1) {
-                // Update existing capability
                 updatedCapabilities[existingIndex] = {
                     ...updatedCapabilities[existingIndex],
                     experience: newExperience
                 };
             } else {
-                // Add new capability
                 updatedCapabilities.push({
                     operation: operationName,
                     person: personClicked,
@@ -75,6 +69,34 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
             console.error("Failed to update experience level:", error);
         }
     };
+
+    // Function to handle sorting when the button is clicked
+    const handleSort = () => {
+        if (sortMode === "none") {
+            setSortMode("asc");
+        } else if (sortMode === "asc") {
+            setSortMode("desc");
+        } else {
+            setSortMode("none");
+        }
+    };
+
+    // Sort operations based on the selected mode
+    let sortedOperations = [...operations];
+
+    if (sortMode === "asc") {
+        sortedOperations.sort((a, b) =>
+            experienceLevels.indexOf(getExperienceLevel(a.operation)) -
+            experienceLevels.indexOf(getExperienceLevel(b.operation))
+        );
+    } else if (sortMode === "desc") {
+        sortedOperations.sort((a, b) =>
+            experienceLevels.indexOf(getExperienceLevel(b.operation)) -
+            experienceLevels.indexOf(getExperienceLevel(a.operation))
+        );
+    } else {
+        sortedOperations.sort((a, b) => a.operation.localeCompare(b.operation));
+    }
 
     if (personClicked) {
         return (
@@ -92,11 +114,18 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
                         <thead>
                             <tr>
                                 <th>Operation</th>
-                                <th>Experience</th>
+                                <th>
+                                    Experience
+                                    <button className="sort-button" onClick={handleSort}>
+                                        {sortMode === "none" ? "↑↓" :
+                                            sortMode === "asc" ? "↑" :
+                                                "↓"}
+                                    </button>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            {operations.map((operation, index) => {
+                            {sortedOperations.map((operation, index) => {
                                 const currentExperience = getExperienceLevel(operation.operation);
                                 return (
                                     <tr key={index}>
@@ -121,11 +150,8 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
                 </div>
             </div>
         );
-    }
-    else {
-        return (
-            <div></div>
-        );
+    } else {
+        return <div></div>;
     }
 }
 
