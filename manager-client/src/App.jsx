@@ -6,6 +6,10 @@ import People from './People.jsx'
 import Profile from './Profile.jsx'
 import Operations from './Operations.jsx'
 import Tasks from './Tasks.jsx'
+import TaskForm from './Popups/TaskForm.jsx'
+import PeopleForm from './Popups/PeopleForm.jsx'
+import OperationsForm from './Popups/OperationsForm.jsx'
+
 
 function App() {
 
@@ -14,6 +18,9 @@ function App() {
   const [personClicked, setPersonClicked] = useState("")
   const [operations, setOperations] = useState([])
   const [capabilities, setCapabilities] = useState([])
+  const [peopleForm, setPeopleForm] = useState(false)
+  const [operationsForm, setOperationsForm] = useState(false)
+  const [taskForm, setTaskForm] = useState(false)
 
   useEffect(() => {
     const fetchPeople = async () => {
@@ -40,15 +47,18 @@ function App() {
   return (
     <>
       <Header />
-      <div className="people-profile-parent">
-        <People people={people} setPeople={setPeople} setPersonClicked={setPersonClicked}/>
+      <div className="parent-div">
+        <People people={people} setPersonClicked={setPersonClicked} setPeopleForm={setPeopleForm}/>
         <Profile personClicked={personClicked} setPersonClicked={setPersonClicked} operations={operations} capabilities={capabilities} setCapabilities={setCapabilities}/>
       </div>
-      <div>
-        <Operations operations={operations} setOperations={setOperations} people={people}/>
-        <Tasks tasks={tasks} />
+      <div className="parent-div">
+        <Operations operations={operations} setOperations={setOperations} people={people} setOperationsForm={setOperationsForm}/>
+        <Tasks tasks={tasks} setTaskForm={setTaskForm}/>
       </div>
-      <Footer />
+      <PeopleForm peopleForm={peopleForm} people={people} setPeople={setPeople} setPeopleForm={setPeopleForm}/>
+      <OperationsForm operationsForm={operationsForm} operations={operations} setOperations={setOperations} setOperationsForm={setOperationsForm}/>
+      <TaskForm taskForm={taskForm} setTaskForm={setTaskForm}/>
+      <Footer/>
     </>
   );
 }

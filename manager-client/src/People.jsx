@@ -1,40 +1,12 @@
-import axios from "axios";
-
-function People({ people, setPeople, setPersonClicked }) {
-
-  async function handleAddNewPerson() {
-
-    // Get individual user input values
-    const name = document.getElementById("name").value;
-    const role = document.getElementById("role").value;
-    const start_date = document.getElementById("start_date").value;
-
-    // Create new person object
-    const newPerson = { name, role, start_date };
-
-    // Check if all fields completed
-    if (document.getElementById("name").value && document.getElementById("role").value && document.getElementById("start_date").value) {
-      // Post new person's variables to back-end and await response
-      const response = await axios.post("http://127.0.0.1:8080/api/people", {
-        name,
-        role,
-        start_date,
-      });
-
-      // Update people state with response received from back-end
-      setPeople([...people, response.data.newPerson]);
-
-      // Clear input values
-      document.getElementById("name").value = "";
-      document.getElementById("role").value = "";
-      document.getElementById("start_date").value = "";
-    }
-
-  }
+function People({ people, setPersonClicked, setPeopleForm }) {
 
   // Update setPerson state with name of person clicked
   function handlePersonClicked(name) {
     setPersonClicked(name);
+  }
+
+  function handleOpenForm() {
+    setPeopleForm(true);
   }
 
   return (
@@ -60,12 +32,7 @@ function People({ people, setPeople, setPersonClicked }) {
           ))}
         </tbody>
       </table>
-      <div className="input-container">
-        <input id="name" placeholder="Name"></input>
-        <input id="role" placeholder="Role"></input>
-        <input id="start_date" placeholder="Start Date"></input>
-        <button onClick={handleAddNewPerson}>Add new person</button>
-      </div>
+      <button onClick={handleOpenForm} className="small-button">Add new person</button>
     </div>
   );
 }

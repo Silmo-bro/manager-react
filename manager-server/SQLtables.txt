@@ -18,15 +18,19 @@ CREATE TABLE capabilities (
 
 CREATE TABLE tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    name TEXT NOT NULL,
+    title TEXT NOT NULL,
     details TEXT NOT NULL,
     date_created TEXT NOT NULL,
     date_planned TEXT,
-    date_held TEXT,
     date_done TEXT,
     status TEXT NOT NULL,
-    is_hold INTEGER NOT NULL,
-    off_hold TEXT,
-    is_bonus INTEGER NOT NULL,
+    status_date TEXT NOT NULL,
     owner TEXT NOT NULL
+);
+
+CREATE TABLE task_notes (
+    notes_id INTEGER NOT NULL,
+    date TEXT NOT NULL,
+    info TEXT NOT NULL,
+    FOREIGN KEY (notes_id) REFERENCES tasks(id)
 );

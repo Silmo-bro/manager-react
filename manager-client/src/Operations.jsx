@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useEffect } from "react";
 
-function Operations({ operations, setOperations, people }) {
+function Operations({ operations, setOperations, people, setOperationsForm }) {
     // Sort operations alphabetically when they load or change
     useEffect(() => {
         if (operations && operations.length > 0) {
-            const isSorted = operations.every((op, i) => 
-                i === 0 || op.operation.localeCompare(operations[i-1].operation) >= 0
+            const isSorted = operations.every((op, i) =>
+                i === 0 || op.operation.localeCompare(operations[i - 1].operation) >= 0
             );
-            
+
             if (!isSorted) {
                 const sortedOperations = [...operations].sort((a, b) =>
                     a.operation.localeCompare(b.operation)
@@ -17,25 +17,6 @@ function Operations({ operations, setOperations, people }) {
             }
         }
     }, [operations, setOperations]);
-
-    async function handleAddNewOperation() {
-        // Get user input value
-        const newOperation = document.getElementById("newOperation").value;
-
-        // Check if all fields completed
-        if (newOperation) {
-            // Post new operation variable to back-end and await response
-            const response = await axios.post("http://127.0.0.1:8080/api/operations", { operation: newOperation });
-
-            // Update operation state with response received from back-end
-            const updatedOperations = [...operations, response.data.newOperation];
-
-            setOperations(updatedOperations);
-
-            // Clear input values
-            document.getElementById("newOperation").value = "";
-        }
-    }
 
     async function handleAssignment(event, operationName, responsibleKey) {
         // Get selected option, operation name and responsible 1 or 2
@@ -53,6 +34,10 @@ function Operations({ operations, setOperations, people }) {
 
         setOperations(updatedOperations);
     }
+
+    function handleOpenForm() {
+        setOperationsForm(true);
+      }
 
     return (
         <div className="table-container">
@@ -87,10 +72,7 @@ function Operations({ operations, setOperations, people }) {
                     ))}
                 </tbody>
             </table>
-            <div className="input-container">
-                <input id="newOperation" placeholder="Operation"></input>
-                <button onClick={handleAddNewOperation}>Add new operation</button>
-            </div>
+            <button onClick={handleOpenForm} className="small-button">Add new operation</button>
         </div>
     );
 }

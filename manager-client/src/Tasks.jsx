@@ -1,15 +1,33 @@
-function Tasks({ tasks }) {
+function Tasks({ tasks, setTaskForm }) {
 
-    return(
-        <>
-        {tasks.map((task, index) => (
-            <div key={index}>
-              <span>{task.name} {task.details} {task.date_created} {task.date_planned} {task.status}</span>
-              <br></br>
-            </div>
+  function handleOpenForm() {
+    setTaskForm(true);
+  }
+
+  return (
+    <div className="table-container">
+      <h2>Open Tasks</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Delegate</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tasks.map((tasks, index) => (
+            <tr key={index}>
+              <td>{tasks.name}</td>
+              <td>{tasks.owner}</td>
+              <td>{tasks.status}</td>
+            </tr>
           ))}
-        </>
-    );
+        </tbody>
+      </table>
+      <button onClick={handleOpenForm} className="small-button">Add new task</button>
+    </div>
+  );
 }
 
 export default Tasks
