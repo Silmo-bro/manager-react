@@ -135,8 +135,8 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
                                                 value={currentExperience}
                                                 onChange={(e) => handleExperienceChange(operation.operation, e.target.value)}
                                             >
-                                                {experienceLevels.map((level, i) => (
-                                                    <option key={i} value={level}>
+                                                {experienceLevels.map((level, index) => (
+                                                    <option key={index} value={level}>
                                                         {level}
                                                     </option>
                                                 ))}

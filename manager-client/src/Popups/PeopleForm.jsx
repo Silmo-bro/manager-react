@@ -39,13 +39,22 @@ function PeopleForm({ peopleForm, people, setPeople, setPeopleForm }) {
             <div className="popup">
                 <div className="popup-inner">
                     <h2>Add new person</h2>
-                    <br/>
+                    <br />
                     <div className="input-container">
-                        <input id="name" placeholder="Name"></input>
-                        <input id="role" placeholder="Role"></input>
-                        <input id="start_date" placeholder="Start Date"></input>
-                        <button onClick={handleAddNewPerson}>Add new person</button>
+                        <div>
+                            <h3 className="top-input-label">Name*</h3>
+                            <input id="name"></input>
+                        </div>
+                        <div>
+                            <h3 className="top-input-label">Role*</h3>
+                            <input id="role"></input>
+                        </div>
+                        <div>
+                            <h3 className="top-input-label">Start date*</h3>
+                            <input id="start_date"></input>
+                        </div>
                     </div>
+                    <button className="submit-form" onClick={handleAddNewPerson}>Add new person</button>
                     <button className="popup-cancel" onClick={handleCancel}>Cancel</button>
                 </div>
             </div>

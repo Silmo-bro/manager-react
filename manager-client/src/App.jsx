@@ -21,6 +21,8 @@ function App() {
   const [peopleForm, setPeopleForm] = useState(false)
   const [operationsForm, setOperationsForm] = useState(false)
   const [taskForm, setTaskForm] = useState(false)
+  const taskStatuses = ["To do", "Planned", "On hold", "Complete"];
+
 
   useEffect(() => {
     const fetchPeople = async () => {
@@ -28,37 +30,40 @@ function App() {
       setPeople(response.data.people);
     };
 
-    const fetchTasks = async () => {
-      const response = await axios.get("http://127.0.0.1:8080/api/tasks");
-      setTasks(response.data.tasks);
-    };
     const fetchOperations = async () => {
       const response = await axios.get("http://127.0.0.1:8080/api/operations");
       setOperations(response.data.operations);
     };
 
     fetchPeople();
-    fetchTasks();
     fetchOperations();
   }, []);
 
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const response = await axios.get("http://127.0.0.1:8080/api/tasks");
+      setTasks(response.data.tasks);
+    };
+
+    fetchTasks();
+  }, [taskForm]);
 
 
   return (
     <>
       <Header />
       <div className="parent-div">
-        <People people={people} setPersonClicked={setPersonClicked} setPeopleForm={setPeopleForm}/>
-        <Profile personClicked={personClicked} setPersonClicked={setPersonClicked} operations={operations} capabilities={capabilities} setCapabilities={setCapabilities}/>
+        <People people={people} setPersonClicked={setPersonClicked} setPeopleForm={setPeopleForm} />
+        <Profile personClicked={personClicked} setPersonClicked={setPersonClicked} operations={operations} capabilities={capabilities} setCapabilities={setCapabilities} />
       </div>
       <div className="parent-div">
-        <Operations operations={operations} setOperations={setOperations} people={people} setOperationsForm={setOperationsForm}/>
-        <Tasks tasks={tasks} setTaskForm={setTaskForm}/>
+        <Operations operations={operations} setOperations={setOperations} people={people} setOperationsForm={setOperationsForm} />
+        <Tasks tasks={tasks} setTaskForm={setTaskForm} />
       </div>
-      <PeopleForm peopleForm={peopleForm} people={people} setPeople={setPeople} setPeopleForm={setPeopleForm}/>
-      <OperationsForm operationsForm={operationsForm} operations={operations} setOperations={setOperations} setOperationsForm={setOperationsForm}/>
-      <TaskForm taskForm={taskForm} setTaskForm={setTaskForm}/>
-      <Footer/>
+      <PeopleForm peopleForm={peopleForm} people={people} setPeople={setPeople} setPeopleForm={setPeopleForm} />
+      <OperationsForm operationsForm={operationsForm} operations={operations} setOperations={setOperations} setOperationsForm={setOperationsForm} />
+      <TaskForm taskForm={taskForm} setTaskForm={setTaskForm} people={people} taskStatuses={taskStatuses} />
+      <Footer />
     </>
   );
 }

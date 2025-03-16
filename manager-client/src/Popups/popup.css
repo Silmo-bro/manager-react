@@ -25,10 +25,37 @@
     min-width: 10px;
 }
 
+.submit-form {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+}
+
+.top-input-label {
+    margin-bottom: 5px;
+}
+
+#title, #date_created, #date_due {
+    max-height: 20px;
+    margin-top: 15px;
+    margin-left: 5px;
+}
+
 #title {
     min-width: 380px;
 }
 
+#owner {
+    min-width: 140px;
+}
+
 #details {
-    min-width: 560px;
+    min-width: 695px;
+    padding: 10px;
+    padding-left: 15px;
+}
+
+#owner, #status {
+    max-height: 30px;
+    margin-top: 15px;
 }

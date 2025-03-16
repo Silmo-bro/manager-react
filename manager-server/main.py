@@ -33,9 +33,15 @@ def people():
         return jsonify({"newPerson": data})
 
 
+@app.route("/api/newtask", methods=['POST'])
+def newtask():
+    data = request.json
+    db.execute("INSERT INTO tasks (title, details, date_created, date_due, status, status_date, owner) VALUES (?, ?, ?, ?, ?, ?, ?)", data["title"], data["details"], data["date_created"], data["date_due"], data["status"], data["date_created"], data["owner"])
+    return jsonify({"success": True, "message": "Experience updated successfully"})
+
+
 @app.route("/api/tasks", methods=['GET'])
 def tasks():
-    
     # Fetch tasks dynamically from database
     tasks_db = db.execute("SELECT * FROM tasks")
 

@@ -32,10 +32,9 @@ function OperationsForm({ operationsForm, operations, setOperations, setOperatio
                 <div className="popup-inner">
                     <h2>Add new operation</h2>
                     <br/>
-                    <div className="input-container">
-                        <input id="newOperation" placeholder="Operation"></input>
-                        <button onClick={handleAddNewOperation}>Add new operation</button>
-                    </div>
+                        <h3 className="top-input-label">Operation*</h3>
+                        <input id="newOperation"></input>
+                        <button className="submit-form" onClick={handleAddNewOperation}>Add new operation</button>
                     <button className="popup-cancel" onClick={handleCancel}>Cancel</button>
                 </div>
             </div>
