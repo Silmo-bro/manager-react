@@ -1,35 +1,37 @@
-function Tasks({ tasks, setTaskForm }) {
+import { useState } from "react"
+import axios from 'axios'
 
-  function handleOpenForm() {
-    setTaskForm(true);
-  }
+function Tasks({ Tasks }) {
 
-  return (
-    <div className="tasks-container">
-      <div className="table-container">
-        <h2>Open Tasks</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Delegate</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks.map((tasks, index) => (
-              <tr key={index}>
-                <td className="task-title">{tasks.title}</td>
-                <td>{tasks.owner}</td>
-                <td>{tasks.status}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <button onClick={handleOpenForm} className="small-button">Add new task</button>
-      </div>
-    </div>
-  );
+    return (
+        <div>
+            <h2>All Tasks</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Details</th>
+                        <th>Date created</th>
+                        <th>Date due</th>
+                        <th>Status</th>
+                        <th>Status date</th>
+                        <th>Delegate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+    );
 }
 
 export default Tasks

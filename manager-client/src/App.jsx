@@ -5,6 +5,7 @@ import Footer from './Footer.jsx'
 import People from './People.jsx'
 import Profile from './Profile.jsx'
 import Operations from './Operations.jsx'
+import OpenTasks from './OpenTasks.jsx'
 import Tasks from './Tasks.jsx'
 import TaskForm from './Popups/TaskForm.jsx'
 import PeopleForm from './Popups/PeopleForm.jsx'
@@ -58,8 +59,9 @@ function App() {
       </div>
       <div className="parent-div">
         <Operations operations={operations} setOperations={setOperations} people={people} setOperationsForm={setOperationsForm} />
-        <Tasks tasks={tasks} setTaskForm={setTaskForm} />
+        <OpenTasks tasks={tasks} setTaskForm={setTaskForm} />
       </div>
+      <Tasks tasks={tasks} />
       <PeopleForm peopleForm={peopleForm} people={people} setPeople={setPeople} setPeopleForm={setPeopleForm} />
       <OperationsForm operationsForm={operationsForm} operations={operations} setOperations={setOperations} setOperationsForm={setOperationsForm} />
       <TaskForm taskForm={taskForm} setTaskForm={setTaskForm} people={people} taskStatuses={taskStatuses} />
