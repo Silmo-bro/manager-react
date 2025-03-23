@@ -35,6 +35,20 @@
     margin-bottom: 5px;
 }
 
+.second-flex {
+    margin-left: 60px;
+}
+
+.save-notes {
+    max-height: 30px;
+    margin-left: 20px;
+    margin-top: 30px;
+}
+
+.notes-table {
+    min-width: 820px;
+}
+
 #title, #date_created, #date_due {
     max-height: 20px;
     margin-top: 15px;
@@ -58,4 +72,8 @@
 #owner, #status {
     max-height: 30px;
     margin-top: 15px;
+}
+
+.timeline-date {
+    max-width: 150px;
 }

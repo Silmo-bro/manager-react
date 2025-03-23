@@ -21,6 +21,14 @@
     min-width: 320px;
 }
 
+.task-title2 {
+    min-width: 190px;
+}
+
+.task-details {
+    min-width: 360px;
+}
+
 .profile-header {
     display: flex;
 }
@@ -36,6 +44,12 @@
 }
 
 .people-table tbody tr:hover {
+    cursor: pointer;
+    background-color: rgba(43, 40, 40, 0.644);
+    color: white;
+}
+
+.task-table tbody tr:hover {
     cursor: pointer;
     background-color: rgba(43, 40, 40, 0.644);
     color: white;
@@ -67,6 +81,22 @@ textarea {
     border: 1px solid;
     font-family: consolas, sans-serif;
     font-size: 1em;
+}
+
+#note-entry {
+    border: none;
+    width: 653px;
+    min-width: 653px;
+    max-width: 653px;
+    min-height: 30px;
+    padding-top: 10px;
+    padding-left: 0px;
+    border-radius: 0px;
+}
+
+#note-entry:focus {
+    border: none;
+    outline: none;
 }
 
 .input-container {
@@ -200,5 +230,9 @@ h2 {
 }
 
 h3 {
+    font-family: consolas, sans-serif;
+}
+
+h4 {
     font-family: consolas, sans-serif;
 }

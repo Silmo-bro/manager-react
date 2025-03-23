@@ -50,6 +50,15 @@ def tasks():
         {"tasks": tasks_db})
 
 
+@app.route("/api/notes", methods=['GET', 'POST'])
+def notes():
+
+    if request.method == 'GET':
+        taskid = request.args.get('taskClicked')
+        notes = db.execute("SELECT * FROM task_notes WHERE notes_id = ?", taskid)
+        return jsonify({"notes": notes})
+    
+
 @app.route("/api/operations", methods=['GET', 'POST'])
 def operations():
 
@@ -62,6 +71,7 @@ def operations():
         db.execute("INSERT INTO operations (operation) VALUES (?)", data["operation"])
         return jsonify({"newOperation": data})
     
+
 @app.route("/api/assignment", methods=['POST'])
 def assignment():
 
@@ -94,6 +104,7 @@ def profile():
             db.execute("INSERT INTO capabilities (operation, person, experience) VALUES (?, ?, ?)", data["operation"], data["person"], data["experience"])
 
         return jsonify({"success": True, "message": "Experience updated successfully"})
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=8080)

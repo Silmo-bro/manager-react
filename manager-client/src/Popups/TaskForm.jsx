@@ -44,26 +44,26 @@ function TaskForm({ taskForm, setTaskForm, people, taskStatuses }) {
                     <br />
                     <div>
                         <div className="input-container">
-                            <h3>Title*</h3>
+                            <h3>Title*:</h3>
                             <input id="title"></input>
-                            <h3>Delegate*</h3>
+                            <h3>Delegate*:</h3>
                             <select id="owner">
                                 <option disabled selected></option>
                                 {people.map((people, index) => (
                                     <option key={index}>{people.name}</option>
                                 ))}</select>
                         </div>
-                        <h3 className="top-input-label">Details*</h3>
+                        <h3 className="top-input-label">Details*:</h3>
                         <textarea id="details" type="text"></textarea>
                         <div className="input-container">
-                            <h3>Date assigned*</h3>
+                            <h3>Date assigned*:</h3>
                             <DatePicker id="date_created" selected={createdDate} onChange={(createdDate) => setCreatedDate(createdDate)} dateFormat="dd/MM/yyyy" />
-                            <h3>Due date</h3>
+                            <h3>Due date:</h3>
                             <DatePicker id="date_due" selected={dueDate} onChange={(dueDate) => setDueDate(dueDate)} dateFormat="dd/MM/yyyy" />
                         </div>
                         <br />
                         <div className="input-container">
-                            <h3>Status*</h3>
+                            <h3>Status*:</h3>
                             <select id="status">
                                 <option disabled selected></option>
                                 {taskStatuses.map((status, index) => (

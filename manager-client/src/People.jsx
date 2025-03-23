@@ -23,11 +23,11 @@ function People({ people, setPersonClicked, setPeopleForm }) {
         <tbody>
           {/*Map the people state to an array, index it*/}
           {people.map((person, index) => (
-            <tr key={index}>
+            <tr key={index} onClick={() => handlePersonClicked(person.name)}>
               {/*Render the name, role and start date in each row with on-click function to get name*/}
-              <td onClick={() => handlePersonClicked(person.name)}>{person.name}</td>
-              <td onClick={() => handlePersonClicked(person.name)}>{person.role}</td>
-              <td onClick={() => handlePersonClicked(person.name)}>{person.start_date}</td>
+              <td>{person.name}</td>
+              <td>{person.role}</td>
+              <td>{person.start_date}</td>
             </tr>
           ))}
         </tbody>

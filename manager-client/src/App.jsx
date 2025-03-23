@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react"
 import axios from 'axios'
 import Header from './Header.jsx'
-import Footer from './Footer.jsx'
 import People from './People.jsx'
 import Profile from './Profile.jsx'
 import Operations from './Operations.jsx'
 import OpenTasks from './OpenTasks.jsx'
 import Tasks from './Tasks.jsx'
+import TaskNotes from './Popups/TaskNotes.jsx'
 import TaskForm from './Popups/TaskForm.jsx'
 import PeopleForm from './Popups/PeopleForm.jsx'
 import OperationsForm from './Popups/OperationsForm.jsx'
@@ -22,6 +22,7 @@ function App() {
   const [peopleForm, setPeopleForm] = useState(false)
   const [operationsForm, setOperationsForm] = useState(false)
   const [taskForm, setTaskForm] = useState(false)
+  const [taskClicked, setTaskClicked] = useState();
   const taskStatuses = ["To do", "Planned", "On hold", "Complete"];
 
 
@@ -61,11 +62,11 @@ function App() {
         <Operations operations={operations} setOperations={setOperations} people={people} setOperationsForm={setOperationsForm} />
         <OpenTasks tasks={tasks} setTaskForm={setTaskForm} />
       </div>
-      <Tasks tasks={tasks} />
+      <Tasks tasks={tasks} setTaskClicked={setTaskClicked}/>
+      <TaskNotes taskClicked={taskClicked} setTaskClicked={setTaskClicked} people={people} taskStatuses={taskStatuses} tasks={tasks} />
       <PeopleForm peopleForm={peopleForm} people={people} setPeople={setPeople} setPeopleForm={setPeopleForm} />
       <OperationsForm operationsForm={operationsForm} operations={operations} setOperations={setOperations} setOperationsForm={setOperationsForm} />
       <TaskForm taskForm={taskForm} setTaskForm={setTaskForm} people={people} taskStatuses={taskStatuses} />
-      <Footer />
     </>
   );
 }
