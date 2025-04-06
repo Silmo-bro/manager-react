@@ -63,7 +63,7 @@ function App() {
         <OpenTasks tasks={tasks} setTaskForm={setTaskForm} />
       </div>
       <Tasks tasks={tasks} setTaskClicked={setTaskClicked}/>
-      <TaskNotes taskClicked={taskClicked} setTaskClicked={setTaskClicked} people={people} taskStatuses={taskStatuses} tasks={tasks} />
+      <TaskNotes taskClicked={taskClicked} setTaskClicked={setTaskClicked} people={people} taskStatuses={taskStatuses} tasks={tasks} setTasks={setTasks} />
       <PeopleForm peopleForm={peopleForm} people={people} setPeople={setPeople} setPeopleForm={setPeopleForm} />
       <OperationsForm operationsForm={operationsForm} operations={operations} setOperations={setOperations} setOperationsForm={setOperationsForm} />
       <TaskForm taskForm={taskForm} setTaskForm={setTaskForm} people={people} taskStatuses={taskStatuses} />

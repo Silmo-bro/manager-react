@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import DatePicker, { setDefaultLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-function TaskNotes({ taskClicked, setTaskClicked, taskStatuses, people, tasks }) {
+function TaskNotes({ taskClicked, setTaskClicked, taskStatuses, people, tasks, setTasks }) {
 
     const [title, setTitle] = useState("");
     const [details, setDetails] = useState("");
@@ -41,27 +41,56 @@ function TaskNotes({ taskClicked, setTaskClicked, taskStatuses, people, tasks })
         fetchNotes();
     }, [taskClicked]);
 
-    function handleUpdateStatus() {
+    async function handleUpdateStatus() {
         // Send new status to backend to update task
+        const updatedStatus = document.getElementById("status").value;
+        const updatedStatusDate = new Date().toLocaleDateString("en-GB");
+        const response = await axios.post("http://127.0.0.1:8080/api/notes-update-status", {
+            taskClicked,
+            updatedStatus,
+            updatedStatusDate
+        });
         // After backend returns updated tasks, update tasks state (causes re-render with new task status)
-        // This may not work, might need to find way to trigger update to tasks
+        setTasks(response.data.tasks);
     };
 
-    function handleUpdateOwner() {
+    async function handleUpdateOwner() {
         // Send new owner to backend to update task
+        const updatedOwner = document.getElementById("owner").value;
+        const response = await axios.post("http://127.0.0.1:8080/api/notes-update-owner", {
+            taskClicked,
+            updatedOwner
+        });
         // After backend returns updated tasks, update tasks state (causes re-render with new task owner)
-        // This may not work, might need to find way to trigger update to tasks
+        setTasks(response.data.tasks);
     };
 
-    function updateDueDate() {
+    async function updateDueDate(dueDate) {
+        // Convert to client's local date string (provided by AI)
+        const formattedDueDate = dueDate ? dueDate.toLocaleDateString("en-GB") : null
+
         // Send new due date to backend to update task
+        const response = await axios.post("http://127.0.0.1:8080/api/notes-update-date-due", {
+            taskClicked,
+            formattedDueDate
+        });
         // Update dueDate state with new due date
-        // Trigger re-render somehow? Probably by running setDueDate to update state
+        setDueDate(dueDate);
+        setTasks(response.data.tasks);
     };
 
-    function handleSaveNotes() {
+    async function handleSaveNotes() {
         // Send notes to backend
+        const noteEntry = document.getElementById("note-entry").value;
+        const entryDate = document.getElementById("entry-date").textContent.trim();
+        const response = await axios.post("http://127.0.0.1:8080/api/notes", {
+            taskClicked,
+            entryDate,
+            noteEntry
+        });
         // Update notes state
+        setNotes(response.data.notes);
+        document.getElementById("note-entry").value = "";
     };
 
     function handleCancel() {
@@ -96,19 +125,19 @@ function TaskNotes({ taskClicked, setTaskClicked, taskStatuses, people, tasks })
                             <thead>
                                 <tr>
                                     <th>Timeline</th>
-                                    <th>Notes</th>
+                                    <th>Entry</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td className="timeline-date">
+                                    <td id="entry-date" className="timeline-date">
                                         {new Date().toLocaleDateString("en-GB")}
                                     </td>
                                     <td>
-                                        <textarea id="note-entry" type="text" placeholder="Enter new note here"></textarea>
+                                        <textarea id="note-entry" type="text" placeholder="Add new entry here"></textarea>
                                     </td>
                                 </tr>
-                                {notes.map((note, index) => (
+                                {notes.slice().reverse().map((note, index) => (
                                     <tr key={index}>
                                         <td className="timeline-date">{note.date}</td>
                                         <td>{note.info}</td>

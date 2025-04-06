@@ -37,7 +37,7 @@ def people():
 def newtask():
     data = request.json
     db.execute("INSERT INTO tasks (title, details, date_created, date_due, status, status_date, owner) VALUES (?, ?, ?, ?, ?, ?, ?)", data["title"], data["details"], data["date_created"], data["date_due"], data["status"], data["date_created"], data["owner"])
-    return jsonify({"success": True, "message": "Experience updated successfully"})
+    return jsonify({"success": True, "message": "Task created successfully"})
 
 
 @app.route("/api/tasks", methods=['GET'])
@@ -58,6 +58,42 @@ def notes():
         notes = db.execute("SELECT * FROM task_notes WHERE notes_id = ?", taskid)
         return jsonify({"notes": notes})
     
+    if request.method == 'POST':
+        data = request.json
+        db.execute("INSERT INTO task_notes (notes_id, date, info) VALUES (?, ?, ?)", data["taskClicked"], data["entryDate"], data["noteEntry"])
+        notes = db.execute("SELECT * FROM task_notes WHERE notes_id = ?", data["taskClicked"])
+        return jsonify({"notes": notes})
+    
+
+@app.route("/api/notes-update-status", methods=['POST'])
+def notesupdatestatus():
+
+    data = request.json
+    db.execute("UPDATE tasks SET (status, status_date) = (?, ?) WHERE id = ?", data["updatedStatus"], data["updatedStatusDate"], data["taskClicked"])
+    tasks_db = db.execute("SELECT * FROM tasks")
+    return jsonify(
+        {"tasks": tasks_db})
+    
+
+@app.route("/api/notes-update-owner", methods=['POST'])
+def notesupdateowner():
+
+    data = request.json
+    db.execute("UPDATE tasks SET owner = ? WHERE id = ?", data["updatedOwner"], data["taskClicked"])
+    tasks_db = db.execute("SELECT * FROM tasks")
+    return jsonify(
+        {"tasks": tasks_db})
+
+
+@app.route("/api/notes-update-date-due", methods=['POST'])
+def notesupdatedatedue():
+
+    data = request.json
+    db.execute("UPDATE tasks SET date_due = ? WHERE id = ?", data["formattedDueDate"], data["taskClicked"])
+    tasks_db = db.execute("SELECT * FROM tasks")
+    return jsonify(
+        {"tasks": tasks_db})
+
 
 @app.route("/api/operations", methods=['GET', 'POST'])
 def operations():
