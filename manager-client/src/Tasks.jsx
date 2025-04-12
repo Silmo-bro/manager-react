@@ -1,10 +1,14 @@
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 
-function Tasks({ tasks, setTaskClicked }) {
+function Tasks({ tasks, setTaskClicked, setTaskForm }) {
 
     function handleTaskClicked(taskId) {
         setTaskClicked(taskId);
+    };
+
+    function handleOpenForm() {
+        setTaskForm(true);
     };
 
     return (
@@ -36,6 +40,7 @@ function Tasks({ tasks, setTaskClicked }) {
                     ))}
                 </tbody>
             </table>
+            <button onClick={handleOpenForm} className="small-button">Add new task</button>
         </div>
     );
 }

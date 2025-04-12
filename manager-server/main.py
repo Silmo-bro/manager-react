@@ -31,6 +31,25 @@ def people():
         db.execute("INSERT INTO people (name, role, start_date) VALUES (?, ?, ?)", data["name"], data["role"], data["start_date"])
         # Return data of new person to front-end
         return jsonify({"newPerson": data})
+    
+
+@app.route("/api/delete-person", methods=['POST'])
+def deleteperson():
+    data = request.json
+    # Check for assigned tasks
+    task_count = db.execute("SELECT COUNT(*) as count FROM tasks WHERE owner = ? AND status != 'Complete'", data["personClicked"])
+    # Check for assigned operations
+    operation1_count = db.execute("SELECT COUNT(*) as count FROM operations WHERE responsible1 = ?", data["personClicked"])
+    operation2_count = db.execute("SELECT COUNT(*) as count FROM operations WHERE responsible2 = ?", data["personClicked"])
+    # Check if either assigned tasks or assigned operations returned true
+    assigned_total = task_count[0]['count'] + operation1_count[0]['count'] + operation2_count[0]['count']
+        # If true, return failure message to front end
+    if (assigned_total > 0):
+        return jsonify({"success": False, "message": "Person has active assignments"})
+        # If false, delete person and return succeess message to front end
+    else:
+        db.execute("DELETE FROM people WHERE name = ?", data["personClicked"])
+        return jsonify({"success": True, "message": "Person successfully deleted"})
 
 
 @app.route("/api/newtask", methods=['POST'])
@@ -49,6 +68,13 @@ def tasks():
     return jsonify(
         {"tasks": tasks_db})
 
+
+@app.route("/api/delete-task", methods=['POST'])
+def deletetask():
+    data = request.json
+    db.execute("DELETE FROM task_notes WHERE notes_id = ?", data["taskClicked"])
+    db.execute("DELETE FROM tasks WHERE id = ?", data["taskClicked"])
+    return jsonify({"success": True, "message": "Task created successfully"})
 
 @app.route("/api/notes", methods=['GET', 'POST'])
 def notes():

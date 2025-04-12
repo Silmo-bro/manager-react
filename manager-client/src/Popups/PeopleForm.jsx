@@ -1,8 +1,13 @@
 import './popup.css';
 import axios from 'axios';
+import { useState } from 'react';
+import CheckEntries from "./CheckEntries.jsx";
+
 
 function PeopleForm({ peopleForm, people, setPeople, setPeopleForm }) {
 
+    const [checkEntry, setCheckEntry] = useState(false);
+    
     async function handleAddNewPerson() {
 
         // Get individual user input values
@@ -14,7 +19,7 @@ function PeopleForm({ peopleForm, people, setPeople, setPeopleForm }) {
         const newPerson = { name, role, start_date };
 
         // Check if all fields completed
-        if (document.getElementById("name").value && document.getElementById("role").value && document.getElementById("start_date").value) {
+        if (name && role && start_date) {
             // Post new person's variables to back-end and await response
             const response = await axios.post("http://127.0.0.1:8080/api/people", {
                 name,
@@ -28,11 +33,18 @@ function PeopleForm({ peopleForm, people, setPeople, setPeopleForm }) {
             // Reset peopleForm to false
             setPeopleForm(false);
         }
-    }
+        else {
+            setCheckEntry(true);
+        }
+    };
 
     function handleCancel() {
         setPeopleForm(false);
-    }
+    };
+
+    function handleClose() {
+        setCheckEntry(false);
+    };
 
     if (peopleForm) {
         return (
@@ -57,6 +69,7 @@ function PeopleForm({ peopleForm, people, setPeople, setPeopleForm }) {
                     <button className="submit-form" onClick={handleAddNewPerson}>Add new person</button>
                     <button className="popup-cancel" onClick={handleCancel}>Cancel</button>
                 </div>
+                {checkEntry && <CheckEntries handleClose={handleClose} />}
             </div>
         )
     }

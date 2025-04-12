@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import DatePicker, { setDefaultLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import CheckEntries from "./CheckEntries.jsx";
+import DeleteWarning from "./DeleteWarning.jsx";
+
 
 function TaskNotes({ taskClicked, setTaskClicked, taskStatuses, people, tasks, setTasks }) {
 
@@ -12,6 +15,9 @@ function TaskNotes({ taskClicked, setTaskClicked, taskStatuses, people, tasks, s
     const [status, setStatus] = useState("");
     const [dueDate, setDueDate] = useState();
     const [notes, setNotes] = useState([]);
+    const [checkEntry, setCheckEntry] = useState(false);
+    const [deleteWarning, setDeleteWarning] = useState(false);
+
 
     useEffect(() => {
         if (taskClicked) {
@@ -82,6 +88,9 @@ function TaskNotes({ taskClicked, setTaskClicked, taskStatuses, people, tasks, s
     async function handleSaveNotes() {
         // Send notes to backend
         const noteEntry = document.getElementById("note-entry").value;
+
+        if (noteEntry) {
+
         const entryDate = document.getElementById("entry-date").textContent.trim();
         const response = await axios.post("http://127.0.0.1:8080/api/notes", {
             taskClicked,
@@ -91,9 +100,29 @@ function TaskNotes({ taskClicked, setTaskClicked, taskStatuses, people, tasks, s
         // Update notes state
         setNotes(response.data.notes);
         document.getElementById("note-entry").value = "";
+        }
+        else {
+            setCheckEntry(true);
+        }
     };
 
     function handleCancel() {
+        setDeleteWarning(false);
+        setTaskClicked();
+    };
+
+    function handleClose() {
+        setCheckEntry(false);
+    };
+
+    function handleDelete() {
+        setDeleteWarning(true);
+    };
+
+    async function handleAcceptWarning() {
+        // Send task id to backend for deletion of task
+        const response = await axios.post("http://127.0.0.1:8080/api/delete-task", {taskClicked});
+        setDeleteWarning(false);
         setTaskClicked();
     };
 
@@ -148,7 +177,10 @@ function TaskNotes({ taskClicked, setTaskClicked, taskStatuses, people, tasks, s
                         <button className="save-notes" onClick={handleSaveNotes}>Save</button>
                     </div>
                     <button className="popup-cancel" onClick={handleCancel}>Close</button>
+                    <button onClick={handleDelete}>Delete task</button>
                 </div>
+                {checkEntry && <CheckEntries handleClose={handleClose} />}
+                {deleteWarning && <DeleteWarning handleAcceptWarning={handleAcceptWarning} />}
             </div>
         )
     }

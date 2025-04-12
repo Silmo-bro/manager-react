@@ -2,9 +2,8 @@ import { useState, useEffect } from "react"
 import axios from 'axios'
 import Header from './Header.jsx'
 import People from './People.jsx'
-import Profile from './Profile.jsx'
+import Profile from './Popups/Profile.jsx'
 import Operations from './Operations.jsx'
-import OpenTasks from './OpenTasks.jsx'
 import Tasks from './Tasks.jsx'
 import TaskNotes from './Popups/TaskNotes.jsx'
 import TaskForm from './Popups/TaskForm.jsx'
@@ -39,7 +38,7 @@ function App() {
 
     fetchPeople();
     fetchOperations();
-  }, []);
+  }, [personClicked]);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -48,22 +47,19 @@ function App() {
     };
 
     fetchTasks();
-  }, [taskForm]);
+  }, [taskForm, taskClicked]);
 
 
   return (
     <>
       <Header />
-      <div className="parent-div">
-        <People people={people} setPersonClicked={setPersonClicked} setPeopleForm={setPeopleForm} />
-        <Profile personClicked={personClicked} setPersonClicked={setPersonClicked} operations={operations} capabilities={capabilities} setCapabilities={setCapabilities} />
-      </div>
+      <Tasks tasks={tasks} setTaskClicked={setTaskClicked} setTaskForm={setTaskForm} />
       <div className="parent-div">
         <Operations operations={operations} setOperations={setOperations} people={people} setOperationsForm={setOperationsForm} />
-        <OpenTasks tasks={tasks} setTaskForm={setTaskForm} />
+        <People people={people} setPersonClicked={setPersonClicked} setPeopleForm={setPeopleForm} />
       </div>
-      <Tasks tasks={tasks} setTaskClicked={setTaskClicked}/>
       <TaskNotes taskClicked={taskClicked} setTaskClicked={setTaskClicked} people={people} taskStatuses={taskStatuses} tasks={tasks} setTasks={setTasks} />
+      <Profile personClicked={personClicked} setPersonClicked={setPersonClicked} operations={operations} capabilities={capabilities} setCapabilities={setCapabilities} />
       <PeopleForm peopleForm={peopleForm} people={people} setPeople={setPeople} setPeopleForm={setPeopleForm} />
       <OperationsForm operationsForm={operationsForm} operations={operations} setOperations={setOperations} setOperationsForm={setOperationsForm} />
       <TaskForm taskForm={taskForm} setTaskForm={setTaskForm} people={people} taskStatuses={taskStatuses} />

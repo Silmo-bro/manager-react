@@ -18,6 +18,14 @@
     background-color: white;
 }
 
+.popup-error {
+    position: absolute;
+    padding: 32px;
+    width: 70%;
+    background-color: white;
+    text-align: center;
+}
+
 .popup-cancel {
     position: absolute;
     top: 16px;

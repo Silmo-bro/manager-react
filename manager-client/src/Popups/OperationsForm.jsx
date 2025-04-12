@@ -1,7 +1,12 @@
 import './popup.css';
 import axios from 'axios';
+import { useState } from 'react';
+import CheckEntries from "./CheckEntries.jsx";
+
 
 function OperationsForm({ operationsForm, operations, setOperations, setOperationsForm }) {
+
+    const [checkEntry, setCheckEntry] = useState(false);
 
     async function handleAddNewOperation() {
         // Get user input value
@@ -20,23 +25,31 @@ function OperationsForm({ operationsForm, operations, setOperations, setOperatio
             // Reset OperationsForm to false
             setOperationsForm(false);
         }
-    }
+        else {
+            setCheckEntry(true);
+        }
+    };
 
     function handleCancel() {
         setOperationsForm(false);
-    }
+    };
+
+    function handleClose() {
+        setCheckEntry(false);
+    };
 
     if (operationsForm) {
         return (
             <div className="popup">
                 <div className="popup-inner">
                     <h2>Add new operation</h2>
-                    <br/>
-                        <h3 className="top-input-label">Operation*</h3>
-                        <input id="newOperation"></input>
-                        <button className="submit-form" onClick={handleAddNewOperation}>Add new operation</button>
+                    <br />
+                    <h3 className="top-input-label">Operation*</h3>
+                    <input id="newOperation"></input>
+                    <button className="submit-form" onClick={handleAddNewOperation}>Add new operation</button>
                     <button className="popup-cancel" onClick={handleCancel}>Cancel</button>
                 </div>
+                {checkEntry && <CheckEntries handleClose={handleClose} />}
             </div>
         )
     }
