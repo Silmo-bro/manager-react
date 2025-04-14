@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 
-function Operations({ operations, setOperations, people, setOperationsForm }) {
+function Operations({ operations, setOperations, people, setOperationsForm, setOperationClicked }) {
     // Sort operations alphabetically when they load or change
     useEffect(() => {
         if (operations && operations.length > 0) {
@@ -33,16 +33,20 @@ function Operations({ operations, setOperations, people, setOperationsForm }) {
         const updatedOperations = response.data.operations;
 
         setOperations(updatedOperations);
-    }
+    };
 
     function handleOpenForm() {
         setOperationsForm(true);
-      }
+    };
+
+    function handleOperationClicked(operation, details) {
+        setOperationClicked([operation, details]);
+    };
 
     return (
         <div className="table-container">
-            <h2>Operations</h2>
-            <table>
+            <h2>Operations (select to view details)</h2>
+            <table className="operations-table">
                 <thead>
                     <tr>
                         <th>Operation</th>
@@ -53,7 +57,7 @@ function Operations({ operations, setOperations, people, setOperationsForm }) {
                 <tbody>
                     {operations.map((operations, index) => (
                         <tr key={index}>
-                            <td>{operations.operation}</td>
+                            <td onClick={() => handleOperationClicked(operations.operation, operations.details)}>{operations.operation}</td>
                             <td className="operations-row">Assigned:
                                 <select className={(operations.responsible1 ?? "") === "" ? "vacant-selected" : ""} value={operations.responsible1 || ""} onChange={(event) => handleAssignment(event, operations.operation, "responsible1")}>
                                     <option value="">Vacant</option>

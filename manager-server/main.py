@@ -130,9 +130,18 @@ def operations():
     
     elif request.method == 'POST':
         data = request.json
-        db.execute("INSERT INTO operations (operation) VALUES (?)", data["operation"])
-        return jsonify({"newOperation": data})
+        db.execute("INSERT INTO operations (operation, details) VALUES (?, ?)", data["newOperation"], data["newOperationDetails"])
+        return jsonify({"newOperation": {
+            "operation": data["newOperation"]
+        }})
     
+
+@app.route("/api/delete-operation", methods=['POST'])
+def deleteoperation():
+    data = request.json
+    db.execute("DELETE FROM operations WHERE operation = ?", data["operationToDelete"])
+    return jsonify({"success": True, "message": "Operation deleted successfully"})
+
 
 @app.route("/api/assignment", methods=['POST'])
 def assignment():

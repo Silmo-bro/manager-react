@@ -77,6 +77,13 @@
     padding-left: 15px;
 }
 
+#operations-details {
+    min-width: 695px;
+    padding: 10px;
+    padding-left: 15px;
+    border-radius: 5px;
+}
+
 #owner, #status {
     max-height: 30px;
     margin-top: 15px;

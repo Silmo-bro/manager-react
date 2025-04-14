@@ -112,7 +112,6 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
     async function handleAcceptWarning() {
         // Send person id to backend for deletion of person
         const response = await axios.post("http://127.0.0.1:8080/api/delete-person", { personClicked });
-        console.log(response.data.success)
         // If returns success
         if (response.data.success) {
             setDeleteWarning(false);

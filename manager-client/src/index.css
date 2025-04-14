@@ -55,6 +55,12 @@
     color: white;
 }
 
+.operations-table td:first-child:hover {
+    cursor: pointer;
+    background-color: rgba(43, 40, 40, 0.644);
+    color: white;
+}
+
 input {
     max-width: 150px;
     min-width: 150px;

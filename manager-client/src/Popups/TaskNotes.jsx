@@ -121,7 +121,7 @@ function TaskNotes({ taskClicked, setTaskClicked, taskStatuses, people, tasks, s
 
     async function handleAcceptWarning() {
         // Send task id to backend for deletion of task
-        const response = await axios.post("http://127.0.0.1:8080/api/delete-task", {taskClicked});
+        await axios.post("http://127.0.0.1:8080/api/delete-task", {taskClicked});
         setDeleteWarning(false);
         setTaskClicked();
     };

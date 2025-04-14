@@ -9,6 +9,7 @@ import TaskNotes from './Popups/TaskNotes.jsx'
 import TaskForm from './Popups/TaskForm.jsx'
 import PeopleForm from './Popups/PeopleForm.jsx'
 import OperationsForm from './Popups/OperationsForm.jsx'
+import OperationDetails from "./Popups/OperationDetails.jsx"
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
   const [operationsForm, setOperationsForm] = useState(false)
   const [taskForm, setTaskForm] = useState(false)
   const [taskClicked, setTaskClicked] = useState();
+  const [operationClicked, setOperationClicked] = useState("");
   const taskStatuses = ["To do", "Planned", "On hold", "Complete"];
 
 
@@ -38,7 +40,7 @@ function App() {
 
     fetchPeople();
     fetchOperations();
-  }, [personClicked]);
+  }, [personClicked, operationClicked]);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -55,7 +57,7 @@ function App() {
       <Header />
       <Tasks tasks={tasks} setTaskClicked={setTaskClicked} setTaskForm={setTaskForm} />
       <div className="parent-div">
-        <Operations operations={operations} setOperations={setOperations} people={people} setOperationsForm={setOperationsForm} />
+        <Operations operations={operations} setOperations={setOperations} people={people} setOperationsForm={setOperationsForm} setOperationClicked={setOperationClicked} />
         <People people={people} setPersonClicked={setPersonClicked} setPeopleForm={setPeopleForm} />
       </div>
       <TaskNotes taskClicked={taskClicked} setTaskClicked={setTaskClicked} people={people} taskStatuses={taskStatuses} tasks={tasks} setTasks={setTasks} />
@@ -63,6 +65,7 @@ function App() {
       <PeopleForm peopleForm={peopleForm} people={people} setPeople={setPeople} setPeopleForm={setPeopleForm} />
       <OperationsForm operationsForm={operationsForm} operations={operations} setOperations={setOperations} setOperationsForm={setOperationsForm} />
       <TaskForm taskForm={taskForm} setTaskForm={setTaskForm} people={people} taskStatuses={taskStatuses} />
+      <OperationDetails operationClicked={operationClicked} setOperationClicked={setOperationClicked} operations={operations}/>
     </>
   );
 }

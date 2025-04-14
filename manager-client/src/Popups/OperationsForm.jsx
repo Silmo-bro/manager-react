@@ -11,11 +11,15 @@ function OperationsForm({ operationsForm, operations, setOperations, setOperatio
     async function handleAddNewOperation() {
         // Get user input value
         const newOperation = document.getElementById("newOperation").value;
+        const newOperationDetails = document.getElementById("operations-details").value;
 
-        // Check if all fields completed
+        // Check if operation name field completed
         if (newOperation) {
             // Post new operation variable to back-end and await response
-            const response = await axios.post("http://127.0.0.1:8080/api/operations", { operation: newOperation });
+            const response = await axios.post("http://127.0.0.1:8080/api/operations", {
+                newOperation,
+                newOperationDetails
+             });
 
             // Update operation state with response received from back-end
             const updatedOperations = [...operations, response.data.newOperation];
@@ -46,6 +50,9 @@ function OperationsForm({ operationsForm, operations, setOperations, setOperatio
                     <br />
                     <h3 className="top-input-label">Operation*</h3>
                     <input id="newOperation"></input>
+                    <br />
+                    <h3 className="top-input-label">Details</h3>
+                    <textarea id="operations-details"></textarea>
                     <button className="submit-form" onClick={handleAddNewOperation}>Add new operation</button>
                     <button className="popup-cancel" onClick={handleCancel}>Cancel</button>
                 </div>
