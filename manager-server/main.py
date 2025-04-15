@@ -158,11 +158,12 @@ def profile():
     if request.method =='GET':
         name = request.args.get('personClicked')
         operations_count = db.execute("SELECT COUNT(*) as count FROM operations WHERE responsible1 = ?", name)
-
+        task_count = db.execute("SELECT COUNT(*) as count FROM tasks WHERE owner = ? AND status != 'Complete'", name)
         capabilities = db.execute("SELECT * FROM capabilities")
 
         return jsonify({
             "operationsCount": operations_count[0]["count"],
+            "taskCount": task_count[0]["count"],
             "capabilities": capabilities
             })
     

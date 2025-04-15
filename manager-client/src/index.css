@@ -33,6 +33,30 @@
     display: flex;
 }
 
+.filter-controls {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+
+.filter-text {
+    font-family: consolas, sans-serif;
+}
+
+#status-filter {
+    margin-right: 55px;
+}
+
+#delegate-filter {
+    margin-right: 35px;
+}
+
+#reset-filters {
+    max-height: 25px;
+    font-size: 0.7em;
+}
+
 .profile-stats {
     font-size: 1em;
     font-family: consolas, sans-serif;

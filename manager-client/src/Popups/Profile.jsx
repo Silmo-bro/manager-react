@@ -7,6 +7,7 @@ import ActivePerson from "./ActivePerson.jsx";
 
 function Profile({ personClicked, setPersonClicked, operations, capabilities, setCapabilities }) {
     const [operationsCount, setOperationsCount] = useState("");
+    const [taskCount, setTaskCount] = useState("");
     const [sortMode, setSortMode] = useState("none"); // Tracks sorting state
     const [deleteWarning, setDeleteWarning] = useState(false);
     const [activePersonWarning, setActivePersonWarning] = useState(false);
@@ -16,13 +17,14 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
 
     useEffect(() => {
         if (personClicked) {
-            async function fetchOperationsCountAndCapabilities() {
+            async function fetchOperationsAndTaskCountAndCapabilities() {
                 const response = await axios.get("http://127.0.0.1:8080/api/profile", { params: { personClicked } });
                 setOperationsCount(response.data.operationsCount);
+                setTaskCount(response.data.taskCount);
                 setCapabilities(response.data.capabilities);
             };
 
-            fetchOperationsCountAndCapabilities();
+            fetchOperationsAndTaskCountAndCapabilities();
         }
     }, [personClicked, operations]);
 
@@ -139,7 +141,7 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
                     </div>
                     <div className="profile-stats">
                         <p>Primary operations currently assigned: {operationsCount}</p>
-                        <p>Tasks open: </p>
+                        <p>Tasks open: {taskCount}</p>
                     </div>
                     <div className="table-container">
                         <table>
@@ -149,7 +151,7 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
                                     <th>
                                         Experience
                                         <button className="sort-button" onClick={handleSort}>
-                                            {sortMode === "none" ? "↑↓" :
+                                            {sortMode === "none" ? "↕" :
                                                 sortMode === "asc" ? "↑" :
                                                     "↓"}
                                         </button>

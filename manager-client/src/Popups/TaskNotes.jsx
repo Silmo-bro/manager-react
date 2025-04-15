@@ -174,9 +174,9 @@ function TaskNotes({ taskClicked, setTaskClicked, taskStatuses, people, tasks, s
                                 ))}
                             </tbody>
                         </table>
-                        <button className="save-notes" onClick={handleSaveNotes}>Save</button>
+                        <button className="save-notes" onClick={handleSaveNotes}>Add entry</button>
                     </div>
-                    <button className="popup-cancel" onClick={handleCancel}>Close</button>
+                    <button className="popup-cancel" onClick={handleCancel}>Save/Close</button>
                     <button onClick={handleDelete}>Delete task</button>
                 </div>
                 {checkEntry && <CheckEntries handleClose={handleClose} />}

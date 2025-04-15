@@ -2,11 +2,14 @@ import './popup.css';
 import axios from 'axios';
 import { useState } from 'react';
 import CheckEntries from "./CheckEntries.jsx";
+import DatePicker, { setDefaultLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 function PeopleForm({ peopleForm, people, setPeople, setPeopleForm }) {
 
     const [checkEntry, setCheckEntry] = useState(false);
+    const [startDate, setStartDate] = useState()
     
     async function handleAddNewPerson() {
 
@@ -14,9 +17,6 @@ function PeopleForm({ peopleForm, people, setPeople, setPeopleForm }) {
         const name = document.getElementById("name").value;
         const role = document.getElementById("role").value;
         const start_date = document.getElementById("start_date").value;
-
-        // Create new person object
-        const newPerson = { name, role, start_date };
 
         // Check if all fields completed
         if (name && role && start_date) {
@@ -36,6 +36,10 @@ function PeopleForm({ peopleForm, people, setPeople, setPeopleForm }) {
         else {
             setCheckEntry(true);
         }
+    };
+
+    function updateDate(date) {
+        setStartDate(date);
     };
 
     function handleCancel() {
@@ -63,7 +67,7 @@ function PeopleForm({ peopleForm, people, setPeople, setPeopleForm }) {
                         </div>
                         <div>
                             <h3 className="top-input-label">Start date*</h3>
-                            <input id="start_date"></input>
+                            <DatePicker id="start_date" selected={startDate} onChange={(date) => updateDate(date)} dateFormat="dd/MM/yyyy" />
                         </div>
                     </div>
                     <button className="submit-form" onClick={handleAddNewPerson}>Add new person</button>

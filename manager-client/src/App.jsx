@@ -55,7 +55,7 @@ function App() {
   return (
     <>
       <Header />
-      <Tasks tasks={tasks} setTaskClicked={setTaskClicked} setTaskForm={setTaskForm} />
+      <Tasks tasks={tasks} setTaskClicked={setTaskClicked} setTaskForm={setTaskForm} taskStatuses={taskStatuses} people={people} />
       <div className="parent-div">
         <Operations operations={operations} setOperations={setOperations} people={people} setOperationsForm={setOperationsForm} setOperationClicked={setOperationClicked} />
         <People people={people} setPersonClicked={setPersonClicked} setPeopleForm={setPeopleForm} />
