@@ -12,6 +12,20 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
     const [deleteWarning, setDeleteWarning] = useState(false);
     const [activePersonWarning, setActivePersonWarning] = useState(false);
 
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                handleCloseProfile();
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleCloseProfile]);
+
     // Define experience level options
     const experienceLevels = ["Untrained", "Basic", "Intermediate", "Expert", "Master"];
 
@@ -127,67 +141,93 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
         };
     };
 
+    function handleAbortWarning() {
+        setDeleteWarning(false);
+    };
+
     function handleClose() {
         setActivePersonWarning(false);
     };
 
     if (personClicked) {
-        return (
-            <div className="popup">
-                <div className="popup-inner">
-                    <div className="profile-header">
-                        <h2>{personClicked}</h2>
-                        <button className="close-button" onClick={handleCloseProfile}>Close profile</button>
+        if (operationsCount > 0) {
+            return (
+                <div className="popup">
+                    <div className="popup-inner">
+                        <div className="profile-header">
+                            <h2>{personClicked}</h2>
+                            <button className="close-button" onClick={handleCloseProfile}>Close profile</button>
+                        </div>
+                        <div className="profile-stats">
+                            <p>Primary operations currently assigned: {operationsCount}</p>
+                            <p>Tasks open: {taskCount}</p>
+                        </div>
+                        <div className="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Operation</th>
+                                        <th>
+                                            Experience
+                                            <button className="sort-button" onClick={handleSort}>
+                                                {sortMode === "none" ? "↕" :
+                                                    sortMode === "asc" ? "↑" :
+                                                        "↓"}
+                                            </button>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {sortedOperations.map((operation, index) => {
+                                        const currentExperience = getExperienceLevel(operation.operation);
+                                        return (
+                                            <tr key={index}>
+                                                <td>{operation.operation}</td>
+                                                <td>
+                                                    <select
+                                                        value={currentExperience}
+                                                        onChange={(e) => handleExperienceChange(operation.operation, e.target.value)}
+                                                    >
+                                                        {experienceLevels.map((level, index) => (
+                                                            <option key={index} value={level}>
+                                                                {level}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                            <button onClick={handleDelete}>Delete person</button>
+                        </div>
                     </div>
-                    <div className="profile-stats">
-                        <p>Primary operations currently assigned: {operationsCount}</p>
-                        <p>Tasks open: {taskCount}</p>
-                    </div>
-                    <div className="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Operation</th>
-                                    <th>
-                                        Experience
-                                        <button className="sort-button" onClick={handleSort}>
-                                            {sortMode === "none" ? "↕" :
-                                                sortMode === "asc" ? "↑" :
-                                                    "↓"}
-                                        </button>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {sortedOperations.map((operation, index) => {
-                                    const currentExperience = getExperienceLevel(operation.operation);
-                                    return (
-                                        <tr key={index}>
-                                            <td>{operation.operation}</td>
-                                            <td>
-                                                <select
-                                                    value={currentExperience}
-                                                    onChange={(e) => handleExperienceChange(operation.operation, e.target.value)}
-                                                >
-                                                    {experienceLevels.map((level, index) => (
-                                                        <option key={index} value={level}>
-                                                            {level}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                        <button onClick={handleDelete}>Delete person</button>
-                    </div>
+                    {deleteWarning && <DeleteWarning handleAcceptWarning={handleAcceptWarning} handleAbortWarning={handleAbortWarning} />}
+                    {activePersonWarning && <ActivePerson handleClose={handleClose} />}
                 </div>
-                {deleteWarning && <DeleteWarning handleAcceptWarning={handleAcceptWarning} />}
-                {activePersonWarning && <ActivePerson handleClose={handleClose} />}
-            </div>
-        );
+            )
+        } else {
+            return (
+                <div className="popup">
+                    <div className="popup-inner">
+                        <div className="profile-header">
+                            <h2>{personClicked}</h2>
+                            <button className="close-button" onClick={handleCloseProfile}>Close profile</button>
+                        </div>
+                        <div className="profile-stats">
+                            <p>Primary operations currently assigned: {operationsCount}</p>
+                            <p>Tasks open: {taskCount}</p>
+                        </div>
+                        <div className="table-container">
+                            <button onClick={handleDelete}>Delete person</button>
+                        </div>
+                    </div>
+                    {deleteWarning && <DeleteWarning handleAcceptWarning={handleAcceptWarning} handleAbortWarning={handleAbortWarning} />}
+                    {activePersonWarning && <ActivePerson handleClose={handleClose} />}
+                </div>
+            )
+        }
     } else {
         return <div></div>;
     }

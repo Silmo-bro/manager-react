@@ -5,9 +5,12 @@ function DeleteWarning(props) {
     return (
         <div className="popup-error">
             <div className="popup-inner">
-                <h4>Warning: this action cannot be undone! Click OK to proceed.
+                <h4>Warning: this action cannot be undone!
                 </h4>
-                <button onClick={props.handleAcceptWarning}>OK</button>
+                <div>
+                    <button onClick={props.handleAcceptWarning}>Confirm</button>
+                    <button className="second-flex" onClick={props.handleAbortWarning}>Cancel</button>
+                </div>
             </div>
         </div>
     )

@@ -25,7 +25,7 @@ function TaskForm({ taskForm, setTaskForm, people, taskStatuses }) {
         const date_due = document.getElementById("date_due").value;
         const status = document.getElementById("status").value;
 
-        if (title && owner && date_created && status) {
+        if (title && date_created && status) {
             await axios.post("http://127.0.0.1:8080/api/newtask", {
                 title,
                 owner,
@@ -55,7 +55,7 @@ function TaskForm({ taskForm, setTaskForm, people, taskStatuses }) {
                         <div className="input-container">
                             <h3>Title*:</h3>
                             <input id="title"></input>
-                            <h3>Delegate*:</h3>
+                            <h3>Delegate:</h3>
                             <select id="owner">
                                 <option disabled selected></option>
                                 {people.map((people, index) => (
@@ -65,7 +65,7 @@ function TaskForm({ taskForm, setTaskForm, people, taskStatuses }) {
                         <h3 className="top-input-label">Details:</h3>
                         <textarea id="details" type="text"></textarea>
                         <div className="input-container">
-                            <h3>Date assigned*:</h3>
+                            <h3>Date created*:</h3>
                             <DatePicker id="date_created" selected={createdDate} onChange={(createdDate) => setCreatedDate(createdDate)} dateFormat="dd/MM/yyyy" />
                             <h3>Due date:</h3>
                             <DatePicker id="date_due" selected={dueDate} onChange={(dueDate) => setDueDate(dueDate)} dateFormat="dd/MM/yyyy" />

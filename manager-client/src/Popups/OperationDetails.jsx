@@ -1,11 +1,25 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DeleteWarning from "./DeleteWarning";
 
 
 function OperationDetails({ operationClicked, setOperationClicked }) {
 
     const [deleteWarning, setDeleteWarning] = useState(false);
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                handleCancel();
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleCancel]);
 
     function handleCancel() {
         setOperationClicked("");
@@ -23,6 +37,10 @@ function OperationDetails({ operationClicked, setOperationClicked }) {
         setDeleteWarning(false);
     };
 
+    function handleAbortWarning() {
+        setDeleteWarning(false);
+    };
+
     if (operationClicked) {
         return (
             <div className="popup">
@@ -32,7 +50,7 @@ function OperationDetails({ operationClicked, setOperationClicked }) {
                     <button onClick={handleDeleteOperation}>Delete Operation</button>
                     <button className="popup-cancel" onClick={handleCancel}>Cancel</button>
                 </div>
-                {deleteWarning && <DeleteWarning handleAcceptWarning={handleAcceptWarning} />}
+                {deleteWarning && <DeleteWarning handleAcceptWarning={handleAcceptWarning} handleAbortWarning={handleAbortWarning} />}
             </div>
         )
     }

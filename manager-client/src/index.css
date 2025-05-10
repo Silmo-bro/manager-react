@@ -1,7 +1,6 @@
 .parent-div {
     display: flex;
     padding-bottom: 20px;
-    border-bottom: 1px solid;
     border-bottom-color: rgba(214, 214, 214, 0.788);
     box-sizing: border-box;
 }
@@ -264,5 +263,9 @@ h3 {
 }
 
 h4 {
+    font-family: consolas, sans-serif;
+}
+
+h5 {
     font-family: consolas, sans-serif;
 }
