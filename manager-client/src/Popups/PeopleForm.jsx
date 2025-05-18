@@ -1,8 +1,16 @@
 import './popup.css';
 import axios from 'axios';
+import { useState } from 'react';
+import CheckEntries from "./CheckEntries.jsx";
+import DatePicker, { setDefaultLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 function PeopleForm({ peopleForm, people, setPeople, setPeopleForm }) {
 
+    const [checkEntry, setCheckEntry] = useState(false);
+    const [startDate, setStartDate] = useState()
+    
     async function handleAddNewPerson() {
 
         // Get individual user input values
@@ -10,11 +18,8 @@ function PeopleForm({ peopleForm, people, setPeople, setPeopleForm }) {
         const role = document.getElementById("role").value;
         const start_date = document.getElementById("start_date").value;
 
-        // Create new person object
-        const newPerson = { name, role, start_date };
-
         // Check if all fields completed
-        if (document.getElementById("name").value && document.getElementById("role").value && document.getElementById("start_date").value) {
+        if (name && role && start_date) {
             // Post new person's variables to back-end and await response
             const response = await axios.post("http://127.0.0.1:8080/api/people", {
                 name,
@@ -28,11 +33,22 @@ function PeopleForm({ peopleForm, people, setPeople, setPeopleForm }) {
             // Reset peopleForm to false
             setPeopleForm(false);
         }
-    }
+        else {
+            setCheckEntry(true);
+        }
+    };
+
+    function updateDate(date) {
+        setStartDate(date);
+    };
 
     function handleCancel() {
         setPeopleForm(false);
-    }
+    };
+
+    function handleClose() {
+        setCheckEntry(false);
+    };
 
     if (peopleForm) {
         return (
@@ -51,12 +67,13 @@ function PeopleForm({ peopleForm, people, setPeople, setPeopleForm }) {
                         </div>
                         <div>
                             <h3 className="top-input-label">Start date*</h3>
-                            <input id="start_date"></input>
+                            <DatePicker id="start_date" selected={startDate} onChange={(date) => updateDate(date)} dateFormat="dd/MM/yyyy" />
                         </div>
                     </div>
                     <button className="submit-form" onClick={handleAddNewPerson}>Add new person</button>
                     <button className="popup-cancel" onClick={handleCancel}>Cancel</button>
                 </div>
+                {checkEntry && <CheckEntries handleClose={handleClose} />}
             </div>
         )
     }

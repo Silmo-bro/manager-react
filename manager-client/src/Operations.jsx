@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 
-function Operations({ operations, setOperations, people, setOperationsForm }) {
+function Operations({ operations, setOperations, people, setOperationsForm, setOperationClicked }) {
     // Sort operations alphabetically when they load or change
     useEffect(() => {
         if (operations && operations.length > 0) {
@@ -33,48 +33,61 @@ function Operations({ operations, setOperations, people, setOperationsForm }) {
         const updatedOperations = response.data.operations;
 
         setOperations(updatedOperations);
-    }
+    };
 
     function handleOpenForm() {
         setOperationsForm(true);
-      }
+    };
 
-    return (
-        <div className="table-container">
-            <h2>Operations</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Operation</th>
-                        <th>1° Responsible <br /> (select to assign)</th>
-                        <th>2° Responsible <br /> (select to assign)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {operations.map((operations, index) => (
-                        <tr key={index}>
-                            <td>{operations.operation}</td>
-                            <td className="operations-row">Assigned:
-                                <select className={(operations.responsible1 ?? "") === "" ? "vacant-selected" : ""} value={operations.responsible1 || ""} onChange={(event) => handleAssignment(event, operations.operation, "responsible1")}>
-                                    <option value="">Vacant</option>
-                                    {people.map((people, index) => (
-                                        <option key={index}>{people.name}</option>
-                                    ))}</select>
-                            </td>
-                            <td className="operations-row">Assigned:
-                                <select className={(operations.responsible2 ?? "") === "" ? "vacant-selected" : ""} value={operations.responsible2 || ""} onChange={(event) => handleAssignment(event, operations.operation, "responsible2")}>
-                                    <option value="">Vacant</option>
-                                    {people.map((people, index) => (
-                                        <option key={index}>{people.name}</option>
-                                    ))}</select>
-                            </td>
+    function handleOperationClicked(operation, details) {
+        setOperationClicked([operation, details]);
+    };
+
+    if (operations.length > 0)
+        return (
+            <div className="table-container">
+                <h2>Operations (select to view details)</h2>
+                <table className="operations-table">
+                    <thead>
+                        <tr>
+                            <th>Operation</th>
+                            <th>1° Responsible <br /> (select to assign)</th>
+                            <th>2° Responsible <br /> (select to assign)</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {operations.map((operations, index) => (
+                            <tr key={index}>
+                                <td onClick={() => handleOperationClicked(operations.operation, operations.details)}>{operations.operation}</td>
+                                <td className="operations-row">Assigned:
+                                    <select className={(operations.responsible1 ?? "") === "" ? "vacant-selected" : ""} value={operations.responsible1 || ""} onChange={(event) => handleAssignment(event, operations.operation, "responsible1")}>
+                                        <option value="">Vacant</option>
+                                        {people.map((people, index) => (
+                                            <option key={index}>{people.name}</option>
+                                        ))}</select>
+                                </td>
+                                <td className="operations-row">Assigned:
+                                    <select className={(operations.responsible2 ?? "") === "" ? "vacant-selected" : ""} value={operations.responsible2 || ""} onChange={(event) => handleAssignment(event, operations.operation, "responsible2")}>
+                                        <option value="">Vacant</option>
+                                        {people.map((people, index) => (
+                                            <option key={index}>{people.name}</option>
+                                        ))}</select>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <button onClick={handleOpenForm} className="small-button">Add new operation</button>
+            </div>
+        );
+    else
+        return (
+            <div className="table-container">
+            <h2>Operations (select to view details)</h2>
+            <h3>There are no operations in the system. Click button below to add an operation.</h3>
             <button onClick={handleOpenForm} className="small-button">Add new operation</button>
-        </div>
-    );
+            </div>
+        )
 }
 
 export default Operations

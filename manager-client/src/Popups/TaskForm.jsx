@@ -3,11 +3,14 @@ import { useState } from "react";
 import axios from 'axios';
 import DatePicker, { setDefaultLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import CheckEntries from "./CheckEntries.jsx";
+
 
 function TaskForm({ taskForm, setTaskForm, people, taskStatuses }) {
 
     const [createdDate, setCreatedDate] = useState(new Date());
     const [dueDate, setDueDate] = useState();
+    const [checkEntry, setCheckEntry] = useState(false);
 
     function handleCancel() {
         setTaskForm(false);
@@ -22,7 +25,7 @@ function TaskForm({ taskForm, setTaskForm, people, taskStatuses }) {
         const date_due = document.getElementById("date_due").value;
         const status = document.getElementById("status").value;
 
-        if (title && owner && details && date_created && status) {
+        if (title && date_created && status) {
             await axios.post("http://127.0.0.1:8080/api/newtask", {
                 title,
                 owner,
@@ -31,10 +34,16 @@ function TaskForm({ taskForm, setTaskForm, people, taskStatuses }) {
                 date_due,
                 status
             });
+            setTaskForm(false);
         }
+        else {
+            setCheckEntry(true);
+        }
+    };
 
-        setTaskForm(false);
-    }
+    function handleClose() {
+        setCheckEntry(false);
+    };
 
     if (taskForm) {
         return (
@@ -46,17 +55,17 @@ function TaskForm({ taskForm, setTaskForm, people, taskStatuses }) {
                         <div className="input-container">
                             <h3>Title*:</h3>
                             <input id="title"></input>
-                            <h3>Delegate*:</h3>
+                            <h3>Delegate:</h3>
                             <select id="owner">
                                 <option disabled selected></option>
                                 {people.map((people, index) => (
                                     <option key={index}>{people.name}</option>
                                 ))}</select>
                         </div>
-                        <h3 className="top-input-label">Details*:</h3>
+                        <h3 className="top-input-label">Details:</h3>
                         <textarea id="details" type="text"></textarea>
                         <div className="input-container">
-                            <h3>Date assigned*:</h3>
+                            <h3>Date created*:</h3>
                             <DatePicker id="date_created" selected={createdDate} onChange={(createdDate) => setCreatedDate(createdDate)} dateFormat="dd/MM/yyyy" />
                             <h3>Due date:</h3>
                             <DatePicker id="date_due" selected={dueDate} onChange={(dueDate) => setDueDate(dueDate)} dateFormat="dd/MM/yyyy" />
@@ -74,6 +83,7 @@ function TaskForm({ taskForm, setTaskForm, people, taskStatuses }) {
                     </div>
                     <button className="popup-cancel" onClick={handleCancel}>Cancel</button>
                 </div>
+                {checkEntry && <CheckEntries handleClose={handleClose} />}
             </div>
         )
     }

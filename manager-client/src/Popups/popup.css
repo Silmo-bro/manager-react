@@ -18,6 +18,14 @@
     background-color: white;
 }
 
+.popup-error {
+    position: absolute;
+    padding: 32px;
+    width: 70%;
+    background-color: white;
+    text-align: center;
+}
+
 .popup-cancel {
     position: absolute;
     top: 16px;
@@ -69,6 +77,13 @@
     padding-left: 15px;
 }
 
+#operations-details {
+    min-width: 695px;
+    padding: 10px;
+    padding-left: 15px;
+    border-radius: 5px;
+}
+
 #owner, #status {
     max-height: 30px;
     margin-top: 15px;
@@ -76,4 +91,9 @@
 
 .timeline-date {
     max-width: 150px;
+}
+
+.status-info {
+    margin-top: 0px;
+    
 }

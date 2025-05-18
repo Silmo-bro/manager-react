@@ -1,7 +1,6 @@
 .parent-div {
     display: flex;
     padding-bottom: 20px;
-    border-bottom: 1px solid;
     border-bottom-color: rgba(214, 214, 214, 0.788);
     box-sizing: border-box;
 }
@@ -14,7 +13,7 @@
 }
 
 .tasks-container {
-    margin-left: 35px;
+    margin-left: 25px;
 }
 
 .task-title {
@@ -31,6 +30,30 @@
 
 .profile-header {
     display: flex;
+}
+
+.filter-controls {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+
+.filter-text {
+    font-family: consolas, sans-serif;
+}
+
+#status-filter {
+    margin-right: 55px;
+}
+
+#delegate-filter {
+    margin-right: 35px;
+}
+
+#reset-filters {
+    max-height: 25px;
+    font-size: 0.7em;
 }
 
 .profile-stats {
@@ -50,6 +73,12 @@
 }
 
 .task-table tbody tr:hover {
+    cursor: pointer;
+    background-color: rgba(43, 40, 40, 0.644);
+    color: white;
+}
+
+.operations-table td:first-child:hover {
     cursor: pointer;
     background-color: rgba(43, 40, 40, 0.644);
     color: white;
@@ -234,5 +263,9 @@ h3 {
 }
 
 h4 {
+    font-family: consolas, sans-serif;
+}
+
+h5 {
     font-family: consolas, sans-serif;
 }
