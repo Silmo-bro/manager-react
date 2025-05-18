@@ -48,7 +48,7 @@ function OperationDetails({ operationClicked, setOperationClicked }) {
                     <h2>{operationClicked[0]}</h2>
                     <h3>{operationClicked[1]}</h3>
                     <button onClick={handleDeleteOperation}>Delete Operation</button>
-                    <button className="popup-cancel" onClick={handleCancel}>Cancel</button>
+                    <button className="popup-cancel" onClick={handleCancel}>Close</button>
                 </div>
                 {deleteWarning && <DeleteWarning handleAcceptWarning={handleAcceptWarning} handleAbortWarning={handleAbortWarning} />}
             </div>

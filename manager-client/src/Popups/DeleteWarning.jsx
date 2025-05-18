@@ -1,6 +1,21 @@
 import './popup.css';
+import { useEffect } from 'react';
 
 function DeleteWarning(props) {
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                props.handleAbortWarning();
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [props.handleAcceptWarning, props.handleAbortWarning]);
 
     return (
         <div className="popup-error">

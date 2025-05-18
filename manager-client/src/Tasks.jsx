@@ -101,7 +101,7 @@ function Tasks({ tasks, setTaskClicked, setTaskForm, taskStatuses, people }) {
 
     if (tasks.length > 0)
         return (
-            <div>
+            <div className="tasks-container">
                 <h2>All Tasks (select task to view/update notes)</h2>
 
                 {/* Filter controls */}

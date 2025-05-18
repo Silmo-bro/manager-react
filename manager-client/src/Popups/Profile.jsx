@@ -150,7 +150,7 @@ function Profile({ personClicked, setPersonClicked, operations, capabilities, se
     };
 
     if (personClicked) {
-        if (operationsCount > 0) {
+        if (operations.length > 0) {
             return (
                 <div className="popup">
                     <div className="popup-inner">

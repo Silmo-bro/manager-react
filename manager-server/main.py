@@ -74,7 +74,7 @@ def deletetask():
     data = request.json
     db.execute("DELETE FROM task_notes WHERE notes_id = ?", data["taskClicked"])
     db.execute("DELETE FROM tasks WHERE id = ?", data["taskClicked"])
-    return jsonify({"success": True, "message": "Task created successfully"})
+    return jsonify({"success": True, "message": "Task deleted successfully"})
 
 @app.route("/api/notes", methods=['GET', 'POST'])
 def notes():
